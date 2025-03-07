@@ -1,4 +1,5 @@
 format: jb-book
 root: content/intro
 chapters:
+  - file: content/contenido
   - file: content/clase1
