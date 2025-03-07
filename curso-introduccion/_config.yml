@@ -1,0 +1,23 @@
+title: "Curso de Desarrollo Analítico con Python"
+author: "Luis Andrés Campos Maldonado"
+copyright: "2025"
+logo: "content/img/logo.png"
+
+execute:
+  execute_notebooks: "off"
+
+html:
+  use_repository_button: true
+  use_edit_page_button: true
+  use_issues_button: true
+  extra_footer: "Publicado bajo licencia MIT. Creado con Jupyter Book."
+
+repository:
+  url: "https://github.com/lacamposm/desarrollo-analitico-oic"
+  path_to_book: "curso-introduccion"
+  branch: main
+
+sphinx:
+  config:
+    html_baseurl: "https://lacamposm.github.io/desarrollo-analitico-oic/"
+
