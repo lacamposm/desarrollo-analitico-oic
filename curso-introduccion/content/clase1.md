@@ -1,9 +1,11 @@
 # ***💻Clase 1: Introducción a Git y GitHub💻***
 
-<p align="center">
-  <img src="img/tesis_pdf.png" alt="Descripción 1" width="45%" style="float: left; margin-right: 10px;">
-  <img src="img/git_tesis.png" alt="Descripción 2" width="45%" style="float: right; margin-left: 10px;">
-</p>
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/lacamposm/desarrollo-analitico-oic/main/curso-introduccion/content/img/git_tesis.png" alt="Gestión de versiones sin Git" width="100%"></td>
+    <td><img src="https://raw.githubusercontent.com/lacamposm/desarrollo-analitico-oic/main/curso-introduccion/content/img/tesis_pdf.png" alt="Gestión de versiones con Git" width="100%"></td>
+  </tr>
+</table>
 
 
 ## ⭐ Objetivo

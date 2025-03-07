@@ -5,8 +5,7 @@ Este programa ha sido diseñado para proporcionarte una base sólida en el desar
 
 - **Docente:** [Luis Andrés Campos Maldonado](https://co.linkedin.com/in/lacamposm)
 - **Correo:** [luisandres.campos@igac.gov.co](mailto:luisandres.campos@igac.gov.co)
-- **Github:** [https://github.com/lacamposm]()
-
+- **Github:** [https://github.com/lacamposm]
 ---
 
 ### 🎯 **Objetivos del Curso**  

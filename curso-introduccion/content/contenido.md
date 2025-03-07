@@ -1,10 +1,5 @@
 # 📆 **Sesiones de clase**
 
-- **Docente:** [Luis Andrés Campos Maldonado](https://co.linkedin.com/in/lacamposm)
-- **Correo:** [luisandres.campos@igac.gov.co](mailto:luisandres.campos@igac.gov.co)
-- **Github:** [https://github.com/lacamposm]()
-
----
 
 ## 🛠️ Herramientas a instalar en el curso.
 
