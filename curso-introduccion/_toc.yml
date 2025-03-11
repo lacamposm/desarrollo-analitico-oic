@@ -3,3 +3,6 @@ root: content/intro
 chapters:
   - file: content/contenido
   - file: content/clase1
+  - file: content/clase2
+  - file: content/use_docker_images
+  - file: content/install_docker_windows

@@ -1,11 +1,7 @@
 # ***💻Clase 1: Introducción a Git y GitHub💻***
 
-<table>
-  <tr>
-    <td><img src="https://raw.githubusercontent.com/lacamposm/desarrollo-analitico-oic/main/curso-introduccion/content/img/git_tesis.png" alt="Gestión de versiones sin Git" width="100%"></td>
-    <td><img src="https://raw.githubusercontent.com/lacamposm/desarrollo-analitico-oic/main/curso-introduccion/content/img/tesis_pdf.png" alt="Gestión de versiones con Git" width="100%"></td>
-  </tr>
-</table>
+![Tesis-No-Git](./img/tesis_pdf.png)
+![Tesis-Git](./img/git_tesis.png)
 
 
 ## ⭐ Objetivo
@@ -30,12 +26,16 @@ Descargar e instalar desde: https://git-scm.com/downloads
 
 #### **👉 Configurar Git** (solo la primera vez)
 
+```bash
 git config --global user.name "Tu Nombre"  
 git config --global user.email "tu-email@example.com"  
+```
 
 Verificar la configuración:
 
+```bash
 git config --list  
+```
 
 ---
 
@@ -98,27 +98,39 @@ Los conflictos ocurren cuando dos personas modifican la misma línea de código.
 #### **👉 Pasos para resolver conflictos**
 
 1. Cambiar a la rama `main` y obtener la última versión del repositorio:  
-   `git checkout main`  
-   `git pull origin main`  
+    ```bash
+    git checkout main  
+    git pull origin main  
+    ```
 
 2. Cambiar a la rama de trabajo:  
-   `git checkout nueva-rama`  
+    ```bash
+    git checkout nueva-rama  
+    ```
 
 3. Fusionar `main` en la rama actual para asegurarse de que está actualizada:  
-   `git merge main`  
+    ```bash
+    git merge main  
+    ```
 
 4. Si hay conflictos, Git los marcará en los archivos afectados.  
 
 5. Editar manualmente los archivos y decidir qué cambios conservar.  
 
 6. Agregar los cambios resueltos con:  
-   `git add .`  
+    ```bash
+    git add .  
+    ```
 
 7. Hacer un nuevo commit con la resolución de conflictos:  
-   `git commit -m "Conflictos resueltos con main"`  
+    ```bash
+    git commit -m "Conflictos resueltos con main"  
+    ```
 
 8. Subir la versión final de la rama a GitHub:  
-   `git push origin nueva-rama`  
+    ```bash
+    git push origin nueva-rama  
+    ```
 
 9. **Ir a GitHub y crear un Pull Request** desde `nueva-rama` hacia `main`.  
 

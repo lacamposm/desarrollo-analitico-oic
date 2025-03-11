@@ -1,0 +1,45 @@
+# 1. Imagen base de Python 3.12
+FROM python:3.12
+
+# 2. Instalar utilidades necesarias
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    curl \
+    git \
+    wget \
+    sudo \
+    ca-certificates \
+    libnss3 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 3. Instalar Miniconda
+ENV CONDA_DIR="/opt/conda"
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
+    && /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR \
+    && rm /tmp/miniconda.sh
+
+# Agregar conda al PATH en todos los entornos
+ENV PATH="$CONDA_DIR/bin:$PATH"
+RUN echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> /etc/profile \
+    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bashrc \
+    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bash_profile
+
+# 4. Actualizar conda
+RUN conda update -n base -c defaults conda -y
+
+# 5. Instalar paquetes Python
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir poetry jupyterlab ipykernel
+
+# 6. Instalar Code-Server (VS Code Server)
+RUN curl -fsSL https://code-server.dev/install.sh | bash
+
+# 7. Exponer puertos
+EXPOSE 8888 8080
+
+# 8. CMD corregido para asegurarse de que code-server y bash usen el PATH correcto
+CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
+    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+    exec bash"]
