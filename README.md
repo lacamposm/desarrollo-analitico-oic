@@ -42,18 +42,16 @@ En esta primera sesión conoceremos la estructura, objetivos y expectativas del 
 
 En esta clase abordaremos `Python` como lenguaje fundamental para analítica de datos, con énfasis en la creación y gestión de ambientes virtuales. Exploraremos cómo Docker facilita la creación de entornos reproducibles y aprenderemos prácticas generales y recomendadas para desarrollar servicios analíticos.
 
-- Introducción y fundamentos de Python para analítica.
-- Ambientes virtuales (`venv`, `conda`).
 - Introducción básica a Docker.
-- Construccion de imagen Docker con kernel de `R` y `Python` para usar con [`JupyterLab`](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html)
-- Buenas prácticas de Docker-desktop en Windows.
+- Ambientes virtuales (`venv`, `conda`).
+- Construccion de imagen Docker con kernel `Python` para usar con [`JupyterLab`](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html) y [`Vscode-server`](https://code.visualstudio.com/docs/remote/vscode-server)
 
 ---
 
 ## 📌 **Clase 3 – Viernes, 14 de marzo de 2025**
 **Programación Orientada a Objetos y Documentación Profesional**
 
-Esta sesión abordará los principios fundamentales de la programación orientada a objetos en Python, mostrando cómo estructurar eficientemente proyectos complejos mediante modularización. Además, se explicará cómo documentar código utilizando docstrings con [`Sphinx`]() para asegurar calidad profesional en los proyectos desarrollados.
+Esta sesión abordará los principios fundamentales de la programación orientada a objetos en Python, mostrando cómo estructurar eficientemente proyectos complejos mediante modularización. Además, se explicará cómo documentar código utilizando docstrings con [`Sphinx`](https://www.sphinx-doc.org/en/master/) para asegurar calidad profesional en los proyectos desarrollados.
 
 - Conceptos clave de Programación Orientada a Objetos (OOP).
 - Modularización y creación de paquetes reutilizables.

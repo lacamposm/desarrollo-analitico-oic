@@ -43,11 +43,12 @@ git config --list
 
 | Comando | Descripción |
 |---------|-------------|
+| git clone URL | Clona un repositorio remoto a tu máquina local. |
 | git init | Inicializa un nuevo repositorio local. |
 | git add . | Agrega archivos al área de preparación. |
 | git commit -m "Mensaje" | Guarda los cambios en el historial local. |
 | git remote add origin URL | Conecta el repositorio local con GitHub. |
-| git push origin main | Envía los cambios al repositorio remoto. |
+| git push origin <nombre-rama> | Envía los cambios al repositorio remoto a la rama especificada. |
 | git pull origin main | Obtiene los últimos cambios del repositorio remoto. |
 
 ---
@@ -84,9 +85,9 @@ git push origin nueva-rama
 
 ```bash
 git checkout main  
-git pull origin main  # Traer los cambios más recientes de main
-git checkout mi-rama  # Volver a tu rama
-git merge main  # Fusionar los cambios más recientes en tu rama
+git pull origin main        # Traer los cambios más recientes de main
+git checkout nueva-rama     # Volver a tu rama
+git merge main              # Fusionar los cambios más recientes en tu rama
 ```
  
 
@@ -139,7 +140,19 @@ Los conflictos ocurren cuando dos personas modifican la misma línea de código.
 
 ## ***🛠️ Práctica: Trabajo colaborativo con Git y GitHub***
 
- - **🔄 1. Clonar un repositorio de prueba**
+- **🔄 1. Clonar el repositorio del contenido general del curso**
+
+    ```bash
+    git clone https://github.com/lacamposm/desarrollo-analitico-oic.git
+    ```
+    **🔑 Clonar el repositorio privado del proyecto**
+
+    Para clonar el repositorio privado del proyecto:
+
+    ```bash
+    git clone https://github.com/lacamposm/mini-proyecto-oic.git
+    ```
+        
 
  - **🏠 2. Crear modificar el archivo `README.md` y hacer un commit**
 

@@ -41,46 +41,34 @@ Los comandos esenciales para trabajar con Docker son:
 
 ### Comandos Detallados
 
-1. `docker pull <imagen>`  
-    Descarga una imagen desde un registro.  
+1. `docker pull <imagen>`
+    Descarga una imagen desde un registro.
     - `--all-tags, -a`: Descarga todas las etiquetas disponibles de la imagen.
-    - `--platform`: Especifica la plataforma si el servidor es multi-plataforma.
-    - `--disable-content-trust`: Omite la verificación de la imagen.
 
-2. `docker run <imagen>`  
-    Crea y ejecuta un contenedor basado en la imagen indicada.  
+2. `docker run <imagen>`
+    Crea y ejecuta un contenedor basado en la imagen indicada.
     - `--detach, -d`: Ejecuta el contenedor en segundo plano.
-    - `--publish, -p`: Publica los puertos del contenedor al host.
+    - `-it`: Permite una terminal interactiva.
     - `--volume, -v`: Monta un volumen.
     - `--name`: Asigna un nombre personalizado al contenedor.
     - `--rm`: Elimina automáticamente el contenedor cuando se detiene.
-    - `--env, -e`: Establece variables de entorno.
 
-3. `docker ps`  
-    Lista los contenedores en ejecución.  
+3. `docker ps`
+    Lista los contenedores en ejecución.
     - `--all, -a`: Muestra todos los contenedores (no solo los activos).
-    - `--quiet, -q`: Muestra solo los IDs de los contenedores.
-    - `--filter, -f`: Filtra la salida según condiciones.
-    - `--size, -s`: Muestra el tamaño de los contenedores.
 
-4. `docker stop <contenedor>`  
-    Detiene un contenedor en ejecución.  
+4. `docker stop <contenedor>`
+    Detiene un contenedor en ejecución.
     - `--time, -t`: Segundos a esperar antes de forzar la detención.
-    - `--signal`: Especifica la señal a enviar.
 
-5. `docker rm <contenedor>`  
-    Elimina un contenedor que ya se ha detenido.  
+5. `docker rm <contenedor>`
+    Elimina un contenedor que ya se ha detenido.
     - `--force, -f`: Fuerza la eliminación de un contenedor en ejecución.
-    - `--volumes, -v`: Elimina los volúmenes asociados.
-    - `--link, -l`: Elimina el enlace especificado.
 
-6. `docker build -t <nombre_imagen> .`  
+6. `docker build -t <nombre_imagen> .`
     Construye una imagen usando un Dockerfile presente en el directorio actual.
     - `--no-cache`: No usa la caché durante la construcción.
-    - `--pull`: Siempre intenta descargar versiones más nuevas de las imágenes.
     - `--file, -f`: Nombre del Dockerfile (por defecto es 'Dockerfile').
-    - `--quiet, -q`: Suprime la salida de la construcción.
-    - `--build-arg`: Establece variables durante la construcción.
 
 ## Usos de Docker en Python
 

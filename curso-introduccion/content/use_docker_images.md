@@ -263,28 +263,72 @@ Estando en la carpeta padre del proyecto:
      http://127.0.0.1:8888/lab
      ```
 
-### Publicar la Imagen en Docker Hub
+## Publicar la Imagen en Docker Hub
 
-Para publicar la imagen `PythonFull` en Docker Hub, sigue estos pasos:
+Para publicar las imágenes en Docker Hub, sigue estos pasos:
 
 1. Inicia sesión en Docker Hub:
      ```sh
      docker login
      ```
+     Ingresa tu nombre de usuario y contraseña cuando se solicite.
 
-2. Construir la imagen de Docker:
+2. Etiquetar las imágenes
+   Para subir una imagen a tu repositorio en Docker Hub, primero debes etiquetarla con tu nombre de usuario:
+
+     Para PythonMin:
      ```sh
-     docker build -t tu-usuario-dockerhub/mi-python-full:latest -f Dockerfile.PythonFull .
+     docker tag python3.12 tu-usuario-dockerhub/nombre-asignado:python3.12
+     ```
+     Para PythonJupyterlab:
+     ```sh
+     docker tag python3.12-jupyterlab tu-usuario-dockerhub/nombre-asignado:python3.12-jupyterlab
+     ```
+     Para PythonFull:
+     ```sh
+     docker tag python3.12-full tu-usuario-dockerhub/nombre-asignado:python3.12-full
+     ```
+3. Subir las imágenes a Docker Hub
+   Una vez etiquetadas, puedes subirlas a Docker Hub:
+
+     Para PythonMin:
+     ```sh
+     docker push tu-usuario-dockerhub/nombre-asignado/python3.12:latest
+     ```
+     Para PythonJupyterlab:
+     ```sh
+     docker push tu-usuario-dockerhub/nombre-asignado/pythonjupyterlab:latest
+     ```
+     Para PythonFull:
+     ```sh
+     docker push tu-usuario-dockerhub/nombre-asignado/pythonfull:latest
+     ```
+4. Descargar y utilizar imágenes desde Docker Hub
+   Para descargar y usar una imagen publicada:
+
+     ```sh
+     docker pull tu-usuario-dockerhub/nombre-asignado/pythonfull:latest
      ```
 
-3. Etiqueta la imagen (si no lo hiciste en el paso anterior):
+     Para Linux:
      ```sh
-     docker tag mi-python-full tu-usuario-dockerhub/mi-python-full:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/pythonfull:latest
      ```
 
-4. Publica la imagen en Docker Hub:
-     ```sh
-     docker push tu-usuario-dockerhub/mi-python-full:latest
+     Para Windows:
+     ```powershell
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/pythonfull:latest
      ```
+5. Explicación de los parámetros
+- `-it`: Permite la interacción con el contenedor.
+- `--rm`: Elimina el contenedor al detenerse.
+- `-p 8888:8888`: Mapea el puerto 8888 para JupyterLab.
+- `-p 8080:8080`: Mapea el puerto 8080 para VS Code Server.
+- `-v "$(pwd):/workspace"`: Monta el directorio actual en el contenedor como `/workspace`.
+- `-w "/workspace"`: Define `/workspace` como el directorio de trabajo.
+   Una vez ejecutado el contenedor, puedes acceder a:
 
-Asegúrate de reemplazar `tu-usuario-dockerhub` con tu nombre de usuario en Docker Hub.
+   - JupyterLab: `http://localhost:8888`
+   - VS Code Server: `http://localhost:8080`
+
+Asegúrate de reemplazar `tu-usuario-dockerhub` con tu nombre de usuario en Docker Hub si estás subiendo tus propias imágenes.
