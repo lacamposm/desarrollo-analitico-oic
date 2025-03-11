@@ -10,6 +10,7 @@ Accede a la [página oficial de Docker Desktop](https://www.docker.com/products/
 ### ***Paso 2: Ejecutar el instalador***
 
 Una vez descargado, ejecuta el archivo de instalación.
+
 ![Ejecutar el instalador](img/install_docker/docker_exe.png)
 
 ### ***Paso 3: Pre-instalación***

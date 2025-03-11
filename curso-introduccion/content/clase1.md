@@ -153,6 +153,7 @@ Los conflictos ocurren cuando dos personas modifican la misma línea de código.
 
 ## 🌟 **Conclusión**
 Al finalizar esta sesión, los estudiantes habrán aprendido:
+
 ✅ Los fundamentos de Git y GitHub.  
 ✅ Cómo gestionar versiones de código con commits y ramas.  
 ✅ Cómo trabajar colaborativamente sin sobrescribir cambios.  

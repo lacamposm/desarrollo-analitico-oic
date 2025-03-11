@@ -1,7 +1,10 @@
-# Desglose Dockerfile.
+# ***Construyendo y corriendo imagenes Docker en local.***
 
 
 ## Dockerfile.PythonMin
+
+Imagen mínima de Python 3.12 para entornos ligeros sin paquetes adicionales.
+Esta imagen se utiliza cuando se requiere un entorno base de Python sin dependencias extras, ideal para ejecutar scripts o aplicaciones simples de manera eficiente sin sobrecargar el contenedor.
 
 ```dockerfile
 FROM python:3.12
@@ -9,21 +12,17 @@ FROM python:3.12
 CMD ["/bin/bash"]
 ```
 
+### Ejecutar y Crear el Contenedor
 
- Arranca el contenedor con la shell bash.
+Estando en la carpeta padre del proyecto:
 
-## Ejecutar y Crear el Contenedor
+#### Linux/MacOS
 
-### Linux/MacOS
 
-1. Navegar al directorio del proyecto:
-     ```sh
-     cd /ruta/al/proyecto
-     ```
+1. Construir la imagen de Docker:
 
-2. Construir la imagen de Docker:
-     ```sh
-     docker build -t python-min -f Dockerfile.PythonMin .
+     ```bash
+     docker build -t python3.12 -f ./curso-introduccion/docker-images/Dockerfile.PythonMin .
      ```
 
 3. Ejecutar el contenedor montando la carpeta actual como volumen:
@@ -31,21 +30,16 @@ CMD ["/bin/bash"]
      docker run -it --rm -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python-min:latest
      ```
 
-### Windows
+#### Windows
 
-1. Navegar al directorio del proyecto:
-     ```sh
-     cd \ruta\al\proyecto
-     ```
-
-2. Construir la imagen de Docker:
-     ```sh
-     docker build -t mi-python-min -f Dockerfile.PythonMin .
+1. Construir la imagen de Docker:
+     ```cmd
+     docker build -t python3.12 -f .\curso-introduccion\docker-images\Dockerfile.PythonMin .
      ```
 3. Ejecutar el contenedor montando la carpeta actual como volumen:
 
      ```powershell
-     docker run -it --rm -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python-min:latest
+     docker run -it --rm -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12:latest
      ```
 
      O en una línea más legible usando el caracter de continuación ` :
@@ -53,15 +47,38 @@ CMD ["/bin/bash"]
      docker run -it --rm `
           -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
           -w "/$(Split-Path -Leaf $PWD)" `
-          python-min:latest
+          python3.12:latest
      ```
 
-# Explicación línea a línea de Dockerfile.PythonJupyterlab
+## Dockerfile.PythonJupyterlab
+
+Esta imagen instala JupyterLab junto a la extensión jupyterlab-git, facilitando la integración con repositorios Git. Es perfecta para desarrolladores y científicos de datos que necesiten un entorno robusto y flexible para trabajar de forma interactiva con notebooks y gestionar versiones de código.
+
+```dockerfile
+FROM python:3.12
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update && apt-get install -y --no-install-recommends nodejs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN node -v && npm -v
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir jupyterlab jupyterlab-git \
+    && jupyter server extension enable jupyterlab_git \
+    && jupyter lab build --dev-build=False --minimize=False
+
+EXPOSE 8888
+
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888",\
+     "--no-browser", "--allow-root", "--NotebookApp.token=''",\
+     "--NotebookApp.password=''", "--NotebookApp.disable_check_xsrf=True"]
+```
 
 1. **FROM python:3.12**  
     Utiliza la imagen oficial de Python 3.12 como base.
 
-2. **RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - (...)**  
+2. **RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - (...)** 
     Agrega el repositorio oficial de Node.js versión 20, actualiza los paquetes e instala Node.js.
 
 3. **RUN node -v && npm -v**  
@@ -76,53 +93,88 @@ CMD ["/bin/bash"]
 6. **CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]**  
      Inicia JupyterLab en la dirección IP 0.0.0.0 y el puerto 8888, sin requerir autenticación.
 
-## Ejecutar y Crear el Contenedor
+### Ejecutar y Crear el Contenedor
 
-### Linux/MacOS
+Estando en la carpeta padre del proyecto:
 
-1. Navegar al directorio del proyecto:
+#### Linux/MacOS
+
+1. Construir la imagen de Docker:
      ```sh
-     cd /ruta/al/proyecto
+     docker build --no-cache -t python3.12-jupyterlab -f ./curso-introduccion/docker-images/Dockerfile.PythonJupyterlab .
      ```
 
-2. Construir la imagen de Docker:
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker build -t mi-python-jupyterlab -f Dockerfile.PythonJupyterlab .
+     docker run -it --rm -p 8888:8888 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-jupyterlab
      ```
 
-3. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```sh
-     docker run -d -p 8888:8888 -v $(pwd):/app mi-python-jupyterlab
+
+#### Windows
+
+1. Construir la imagen de Docker:
+     ```cmd
+     docker build --no-cache -t python3.12-jupyterlab -f .\curso-introduccion\docker-images\Dockerfile.PythonJupyterlab .
      ```
 
-4. Abrir terminal del contenedor:
-     ```sh
-     docker exec -it $(docker ps -q --filter ancestor=mi-python-jupyterlab) bash
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
+     ```powershell
+     docker run -it --rm -p 8888:8888 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-jupyterlab
      ```
 
-### Windows
-
-1. Navegar al directorio del proyecto:
-     ```sh
-     cd \ruta\al\proyecto
+     O en una línea más legible usando el caracter de continuación ` :
+     ```powershell
+     docker run -it --rm `
+          -p 8888:8888 `
+          -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
+          -w "/$(Split-Path -Leaf $PWD)" `
+          python3.12-jupyterlab
      ```
 
-2. Construir la imagen de Docker:
-     ```sh
-     docker build -t mi-python-jupyterlab -f Dockerfile.PythonJupyterlab .
-     ```
+## Dockerfile.PythonFull
 
-3. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```sh
-     docker run -d -p 8888:8888 -v %cd%:/app mi-python-jupyterlab
-     ```
+Imagen completa basada en Python 3.12 con Miniconda, JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.
 
-4. Abrir terminal del contenedor:
-     ```sh
-     docker exec -it $(docker ps -q --filter ancestor=mi-python-jupyterlab) bash
-     ```
+Esta imagen integra Miniconda para una gestión eficiente de paquetes, JupyterLab para la edición y ejecución de notebooks y VS Code Server para brindar una experiencia de desarrollo en la nube similar a un IDE moderno. Es ideal para proyectos complejos que requieren múltiples herramientas de desarrollo integradas en un solo contenedor.
 
-# Explicación línea a línea del Dockerfile.PythonFull
+```dockerfile
+FROM python:3.12
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    curl \
+    git \
+    wget \
+    sudo \
+    ca-certificates \
+    libnss3 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV CONDA_DIR="/opt/conda"
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
+    && /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR \
+    && rm /tmp/miniconda.sh
+
+ENV PATH="$CONDA_DIR/bin:$PATH"
+RUN echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> /etc/profile \
+    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bashrc \
+    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bash_profile
+
+RUN conda update -n base -c defaults conda -y
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir poetry jupyterlab ipykernel
+
+RUN curl -fsSL https://code-server.dev/install.sh | bash
+
+EXPOSE 8888 8080
+
+CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
+    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+    exec bash"]
+```
 
 1. **FROM python:3.12**  
     Selecciona como base la imagen oficial de Python en su versión 3.12.
@@ -157,53 +209,61 @@ CMD ["/bin/bash"]
 11. **CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && (...) exec bash"]**  
      Define el comando que se ejecuta al iniciar el contenedor, iniciando JupyterLab y code-server, y dejando la terminal activa.
 
-## Ejecutar y Crear el Contenedor
+### Ejecutar y Crear el Contenedor
 
-### Linux/MacOS
+Estando en la carpeta padre del proyecto:
 
-1. Navegar al directorio del proyecto:
+#### Linux/MacOS
+
+1. Construir la imagen de Docker:
      ```sh
-     cd /ruta/al/proyecto
+     docker build -t python3.12-full -f ./curso-introduccion/docker-images/Dockerfile.PythonFull .
      ```
 
-2. Construir la imagen de Docker:
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker build -t mi-python-full -f Dockerfile.PythonFull .
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-full:latest
      ```
 
-3. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```sh
-     docker run -d -p 8888:8888 -p 8080:8080 -v $(pwd):/app mi-python-full
+3. Visita VScode para desarrollar o Jupyterlab
+
+     Luego visita para `VScode`:
+     ```bash
+     http://0.0.0.0:8080/?folder=/desarrollo-analitico-oic
      ```
 
-4. Abrir terminal del contenedor:
-     ```sh
-     docker exec -it $(docker ps -q --filter ancestor=mi-python-full) bash
+     Y para `Jupyterlab`:
+
+     ```bash
+     http://127.0.0.1/8888/lab
      ```
 
-### Windows
+#### Windows
 
-1. Navegar al directorio del proyecto:
-     ```sh
-     cd \ruta\al\proyecto
+1. Construir la imagen de Docker:
+     ```cmd
+     docker build -t python3.12-full -f .\curso-introduccion\docker-images\Dockerfile.PythonFull .
      ```
 
-2. Construir la imagen de Docker:
-     ```sh
-     docker build -t mi-python-full -f Dockerfile.PythonFull .
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
+     ```powershell
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-full:latest
      ```
 
-3. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```sh
-     docker run -d -p 8888:8888 -p 8080:8080 -v %cd%:/app mi-python-full
+3. Visita VScode para desarrollar o Jupyterlab
+
+     Luego visita:
+     ```powershell
+     http://0.0.0.0:8080/?folder=/desarrollo-analitico-oic
      ```
 
-4. Abrir terminal del contenedor:
-     ```sh
-     docker exec -it $(docker ps -q --filter ancestor=mi-python-full) bash
+     Y para `Jupyterlab`:
+
+     ```powershell
+     http://127.0.0.1:8888/lab
      ```
 
-## Publicar la Imagen en Docker Hub
+### Publicar la Imagen en Docker Hub
 
 Para publicar la imagen `PythonFull` en Docker Hub, sigue estos pasos:
 
