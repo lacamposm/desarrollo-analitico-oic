@@ -9,6 +9,3 @@ streamlit
 pandas
 numpy
 black
-
-Crea un enviroment con este requemients
-

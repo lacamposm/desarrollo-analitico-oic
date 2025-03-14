@@ -1,4 +1,4 @@
-name: desarrollo-analitico
+name: desarrollo-analitico-oic
 channels:
   - conda-forge
 dependencies:

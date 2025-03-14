@@ -1,4 +1,4 @@
-# Clase 3: Programación Orientada a Objetos y Documentación Profesional
+# ***📘Clase 3: OOP y Documentación Profesional📘***
 
 ## 🎯 Objetivos de la sesión
 
@@ -7,7 +7,7 @@
 - Aprender a estructurar proyectos mediante modularización
 - Generar documentación profesional utilizando Sphinx
 
-## 📘 Programación Orientada a Objetos en Python
+## 📄 Programación Orientada a Objetos en Python
 
 ### Documentación de funciones en Python
 

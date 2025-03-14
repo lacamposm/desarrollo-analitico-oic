@@ -6,3 +6,4 @@ chapters:
   - file: content/install_docker_windows
   - file: content/clase2
   - file: content/use_docker_images
+  - file: content/clase3

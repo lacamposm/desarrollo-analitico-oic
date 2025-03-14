@@ -33,7 +33,7 @@ Estando en la carpeta padre del proyecto:
 #### Windows
 
 1. Construir la imagen de Docker:
-     ```cmd
+     ```sh
      docker build -t python3.12 -f .\curso-introduccion\docker-images\Dockerfile.PythonMin .
      ```
 3. Ejecutar el contenedor montando la carpeta actual como volumen:
@@ -122,7 +122,7 @@ Estando en la carpeta padre del proyecto:
 #### Windows
 
 1. Construir la imagen de Docker:
-     ```cmd
+     ```powershell
      docker build --no-cache -t python3.12-jupyterlab -f .\curso-introduccion\docker-images\Dockerfile.PythonJupyterlab .
      ```
 
@@ -244,7 +244,7 @@ Estando en la carpeta padre del proyecto:
 #### Windows
 
 1. Construir la imagen de Docker:
-     ```cmd
+     ```powershell
      docker build -t python3.12-conda -f .\curso-introduccion\docker-images\Dockerfile.PythonConda .
      ```
 
@@ -341,7 +341,7 @@ Estando en la carpeta padre del proyecto:
 #### Windows
 
 1. Construir la imagen de Docker:
-     ```cmd
+     ```powershell
      docker build -t python3.12-code -f .\curso-introduccion\docker-images\Dockerfile.PythonCode .
      ```
 
