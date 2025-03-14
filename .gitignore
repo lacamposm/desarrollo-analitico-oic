@@ -173,3 +173,5 @@ cython_debug/
 curso-introduccion/_build/
 
 my_notes.txt
+.Trash-0/
+notebooks/

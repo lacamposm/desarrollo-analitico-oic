@@ -1,7 +1,7 @@
 # 1. Imagen base de Python 3.12
 FROM python:3.12
- 
-# 2. Instalar utilidades necesarias
+
+# 2. Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -11,23 +11,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libnss3 \
     make \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
- 
+
 # 3. Instalar paquetes Python necesarios para notebooks en VS-Code
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython
- 
+    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython notebook jupyter_core nbformat
+
 # 4. Instalar Code-Server (VS Code Server)
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
-# 5. Instalar extensiones de VS-Code para notebooks
-RUN code-server --install-extension ms-toolsai.jupyter
+# 5. Configurar tema oscuro por defecto en VS Code
+RUN mkdir -p ~/.local/share/code-server/User && \
+    echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
 
-# 6. Exponer solo el puerto para VS Code
-EXPOSE 8080
- 
-# 7. CMD para iniciar solo Code-Server
+# 6. Exponer puertos (8080 para code-server y un puerto para el servidor de Jupyter)
+EXPOSE 8080 8888
+
+# 7. CMD para iniciar Code-Server y un servidor de notebooks en segundo plano
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
     exec bash"]

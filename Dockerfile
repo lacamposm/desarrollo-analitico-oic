@@ -1,6 +1,6 @@
-FROM lacamposm/docker-helpers:python-code
+FROM lacamposm/docker-helpers:python3.12-notebooks-code-server
 
-WORKDIR /workspaces/desarrollo-analitico
+WORKDIR /desarrollo-analitico-oic
 
 COPY requirements.txt requirements.txt
 
@@ -12,9 +12,9 @@ RUN python -m pip install -r requirements.txt
 EXPOSE 8501
 
 #  ------------  CASO USO IMAGEN CONDA  ------------ #
-# FROM lacamposm/docker-helpers:python-conda
+# FROM lacamposm/docker-helpers:python-conda-notebooks-code-server
 
-# WORKDIR /workspaces/desarrollo-analitico
+# WORKDIR /desarrollo-analitico-oic
 
 # COPY environment.yml environment.yml
 
@@ -22,7 +22,14 @@ EXPOSE 8501
 # RUN conda env create -f environment.yml
 
 # # Usar el environment para los siguientes comandos
-# SHELL ["conda", "run", "-n", "desarrollo-analitico", "/bin/bash", "-c"]
+# SHELL ["conda", "run", "-n", "desarrollo-analitico-oic", "/bin/bash", "-c"]
+
+# # Instalar el paquete notebook, que provee el comando jupyter-notebook
+# RUN pip install notebook
+
+# # Configurar la activación automática del entorno conda
+# RUN echo 'eval "$(conda shell.bash hook)"' >> ~/.bashrc && \
+#     echo 'conda activate desarrollo-analitico-oic' >> ~/.bashrc
 
 # # Puerto para Streamlit
 # EXPOSE 8501

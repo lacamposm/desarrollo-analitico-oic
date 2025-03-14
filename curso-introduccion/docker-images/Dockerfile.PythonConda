@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     ca-certificates \
     make \
+    libnss3 \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
@@ -22,28 +23,32 @@ RUN node -v && npm -v
 RUN conda update -n base -c defaults conda -y && \
     conda config --add channels conda-forge
 
-# 5. Instalar paquetes Python esenciales con conda
+# 5. Instalar paquetes Python esenciales con conda (sin jupyterlab)
 RUN conda install -y \
-    jupyterlab \
     ipykernel \
-    && conda clean -afy \
-    && pip install --no-cache-dir jupyterlab-git \
-    && jupyter server extension enable jupyterlab_git \
-    && jupyter lab build --dev-build=False --minimize=False
+    jupyter_client \
+    notebook \
+    jupyter_core \
+    nbformat \
+    && conda clean -afy
 
-# 5. Configuración de git para JupyterLab
+# 6. Configuración de git
 RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     && git config --system --add safe.directory "*"
 
-# 6. Instalar Code-Server (VS Code Server)
+# 7. Instalar Code-Server (VS Code Server)
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
-# 7. Exponer puertos
+# 8. Configurar tema oscuro por defecto en VS Code
+RUN mkdir -p ~/.local/share/code-server/User && \
+    echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
+
+# 9. Exponer puertos (8080 para code-server y 8888 para el servidor de Jupyter)
 EXPOSE 8888 8080
 
-# 7. CMD para iniciar JupyterLab y Code-Server
+# 10. CMD para iniciar notebook y Code-Server
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
-    jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
     --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
     exec bash"]

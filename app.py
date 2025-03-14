@@ -63,4 +63,4 @@ st.header("Comparación con pandas")
 st.dataframe(pd.DataFrame(datos))
 
 st.markdown("---")
-st.markdown("🌟 Desarrollado con ♥️ como parte del curso de inducción para el curso de `desarrollo analítico del OIC`")
+st.markdown("🌟 Desarrollado con ♥️ como parte del curso de inducción: `desarrollo analítico del OIC`")
