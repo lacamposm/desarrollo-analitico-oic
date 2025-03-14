@@ -1,7 +1,7 @@
 # 1. Imagen base utilizando continuumio/miniconda3, que ya incluye Conda preinstalado
 FROM continuumio/miniconda3
 
-# 2. Instalar utilidades necesarias
+# 2. Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -9,20 +9,36 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     sudo \
     ca-certificates \
-    libnss3 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    make \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update && apt-get install -y --no-install-recommends nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# 3. Actualizar conda
-RUN conda update -n base -c defaults conda -y
+# 3. Verificar Node.js y npm
+RUN node -v && npm -v
 
-# 4. Instalar paquetes Python
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry jupyterlab ipykernel
+# 4. Actualizar conda y configurar canales
+RUN conda update -n base -c defaults conda -y && \
+    conda config --add channels conda-forge
 
-# 5. Instalar Code-Server (VS Code Server)
+# 5. Instalar paquetes Python esenciales con conda
+RUN conda install -y \
+    jupyterlab \
+    ipykernel \
+    && conda clean -afy \
+    && pip install --no-cache-dir jupyterlab-git \
+    && jupyter server extension enable jupyterlab_git \
+    && jupyter lab build --dev-build=False --minimize=False
+
+# 5. Configuración de git para JupyterLab
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*"
+
+# 6. Instalar Code-Server (VS Code Server)
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
-# 6. Exponer puertos
+# 7. Exponer puertos
 EXPOSE 8888 8080
 
 # 7. CMD para iniciar JupyterLab y Code-Server

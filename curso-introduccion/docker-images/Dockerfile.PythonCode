@@ -1,0 +1,33 @@
+# 1. Imagen base de Python 3.12
+FROM python:3.12
+ 
+# 2. Instalar utilidades necesarias
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    curl \
+    git \
+    wget \
+    sudo \
+    ca-certificates \
+    libnss3 \
+    make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+ 
+# 3. Instalar paquetes Python necesarios para notebooks en VS-Code
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython
+ 
+# 4. Instalar Code-Server (VS Code Server)
+RUN curl -fsSL https://code-server.dev/install.sh | bash
+
+# 5. Instalar extensiones de VS-Code para notebooks
+RUN code-server --install-extension ms-toolsai.jupyter
+
+# 6. Exponer solo el puerto para VS Code
+EXPOSE 8080
+ 
+# 7. CMD para iniciar solo Code-Server
+CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+    exec bash"]

@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 .jupyter/
 curso-introduccion/_build/
+
+my_notes.txt

@@ -1,2 +1,14 @@
 jupyter-book
 ghp-import
+sphinx
+sphinx-rtd-theme
+sphinx-autodoc-typehints
+sphinx-copybutton
+myst-parser
+streamlit
+pandas
+numpy
+black
+
+Crea un enviroment con este requemients
+

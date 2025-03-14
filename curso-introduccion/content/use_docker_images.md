@@ -57,41 +57,50 @@ Esta imagen instala JupyterLab junto a la extensión jupyterlab-git, facilitando
 ```dockerfile
 FROM python:3.12
 
+# Instalar Node.js 20+ y dependencias Git
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get update && apt-get install -y --no-install-recommends nodejs \
+    && apt-get update && apt-get install -y --no-install-recommends \
+    nodejs \
+    git \
+    git-lfs \
+    openssh-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Verificar Node.js y npm
 RUN node -v && npm -v
 
+# Actualizar pip e instalar JupyterLab + Extensión Git
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir jupyterlab jupyterlab-git \
-    && jupyter server extension enable jupyterlab_git \
+    && pip install --no-cache-dir jupyterlab jupyterlab-git==0.41.0 \
+    && jupyter server extension enable --py jupyterlab_git \
     && jupyter lab build --dev-build=False --minimize=False
 
+# Configuración de git para JupyterLab
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*" \
+    && mkdir -p ~/.ssh && chmod 700 ~/.ssh \
+    && ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+
+# Exponer el puerto de JupyterLab
 EXPOSE 8888
 
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888",\
-     "--no-browser", "--allow-root", "--NotebookApp.token=''",\
-     "--NotebookApp.password=''", "--NotebookApp.disable_check_xsrf=True"]
+# Comando para iniciar JupyterLab sin autenticación
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''", "--NotebookApp.disable_check_xsrf=True"]
 ```
 
-1. **FROM python:3.12**  
-    Utiliza la imagen oficial de Python 3.12 como base.
+1. **RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - (...)** 
+   Agrega el repositorio oficial de Node.js versión 20, actualiza los paquetes e instala Node.js junto con herramientas Git.
+2. **RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir jupyterlab jupyterlab-git==0.41.0 (...)**  
+   Actualiza pip e instala JupyterLab y la extensión jupyterlab-git específicamente en la versión 0.41.0.
 
-2. **RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - (...)** 
-    Agrega el repositorio oficial de Node.js versión 20, actualiza los paquetes e instala Node.js.
+5. **Configuración de git para JupyterLab**  
+   Configura Git para trabajar de manera integrada con JupyterLab, incluyendo manejo seguro de repositorios.
 
-3. **RUN node -v && npm -v**  
-    Verifica que Node.js y npm estén instalados correctamente comprobando sus versiones.
+6. **EXPOSE 8888**  
+   Expone el puerto 8888 para acceder a JupyterLab.
 
-4. **RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir jupyterlab jupyterlab-git (...)**  
-    Actualiza pip e instala JupyterLab y la extensión jupyterlab-git para gestionar repositorios Git desde la interfaz de JupyterLab.
-
-5. **EXPOSE 8888**  
-    Expone el puerto 8888 para acceder a JupyterLab.
-
-6. **CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]**  
-     Inicia JupyterLab en la dirección IP 0.0.0.0 y el puerto 8888, sin requerir autenticación.
+7. **CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]**  
+   Inicia JupyterLab en la dirección IP 0.0.0.0 y el puerto 8888, sin requerir autenticación.
 
 ### Ejecutar y Crear el Contenedor
 
@@ -131,15 +140,16 @@ Estando en la carpeta padre del proyecto:
           python3.12-jupyterlab
      ```
 
-## Dockerfile.PythonFull
+## Dockerfile.PythonConda
 
-Imagen completa basada en Python 3.12 con Miniconda, JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.
+Imagen completa basada en Miniconda con JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.
 
-Esta imagen integra Miniconda para una gestión eficiente de paquetes, JupyterLab para la edición y ejecución de notebooks y VS Code Server para brindar una experiencia de desarrollo en la nube similar a un IDE moderno. Es ideal para proyectos complejos que requieren múltiples herramientas de desarrollo integradas en un solo contenedor.
+Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye JupyterLab para notebooks y VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.
 
 ```dockerfile
-FROM python:3.12
+FROM continuumio/miniconda3
 
+# Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -147,28 +157,39 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     sudo \
     ca-certificates \
-    libnss3 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    make \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update && apt-get install -y --no-install-recommends nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-ENV CONDA_DIR="/opt/conda"
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
-    && /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR \
-    && rm /tmp/miniconda.sh
+# Verificar Node.js y npm
+RUN node -v && npm -v
 
-ENV PATH="$CONDA_DIR/bin:$PATH"
-RUN echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> /etc/profile \
-    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bashrc \
-    && echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> ~/.bash_profile
+# Actualizar conda y configurar canales
+RUN conda update -n base -c defaults conda -y && \
+    conda config --add channels conda-forge
 
-RUN conda update -n base -c defaults conda -y
+# Instalar paquetes Python esenciales con conda
+RUN conda install -y \
+    jupyterlab \
+    ipykernel \
+    && conda clean -afy \
+    && pip install --no-cache-dir jupyterlab-git \
+    && jupyter server extension enable jupyterlab_git \
+    && jupyter lab build --dev-build=False --minimize=False
 
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry jupyterlab ipykernel
+# Configuración de git para JupyterLab
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*"
 
+# Instalar Code-Server (VS Code Server)
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
+# Exponer puertos
 EXPOSE 8888 8080
 
+# CMD para iniciar JupyterLab y Code-Server
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
     jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
     --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
@@ -176,38 +197,20 @@ CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
     exec bash"]
 ```
 
-1. **FROM python:3.12**  
-    Selecciona como base la imagen oficial de Python en su versión 3.12.
+1. **FROM continuumio/miniconda3**  
+   Usa la imagen oficial de Miniconda como base, que ya incluye Conda preinstalado.
 
-2. **RUN apt-get update && apt-get install -y --no-install-recommends (...)**  
-    Actualiza los índices de paquetes e instala herramientas básicas (bash, curl, git, etc.) sin incluir paquetes innecesarios.
+2. **Instalar utilidades necesarias y Node.js**  
+   Instala herramientas esenciales como Git, cURL, wget, así como Node.js para desarrollo web.
 
-3. **ENV CONDA_DIR="/opt/conda"**  
-    Define la variable CONDA_DIR para indicar la ubicación donde se instalará Miniconda.
+3. **Configuración de git para JupyterLab**  
+   Establece configuraciones de Git para trabajar correctamente con JupyterLab.
 
-4. **RUN wget --quiet (...) && /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR && rm /tmp/miniconda.sh**  
-    Descarga silenciosamente el instalador de Miniconda, lo ejecuta y luego elimina el instalador.
+6. **Instalar Code-Server (VS Code Server)**  
+   Instala VS Code Server para desarrollo en navegador.
 
-5. **ENV PATH="$CONDA_DIR/bin:$PATH"**  
-    Añade la ruta de Miniconda al PATH para que los comandos de conda estén disponibles.
-
-6. **RUN echo 'export PATH="$CONDA_DIR/bin:$PATH"' >> /etc/profile (...)**  
-    Actualiza archivos de configuración para incluir conda en el PATH en todas las sesiones.
-
-7. **RUN conda update -n base -c defaults conda -y**  
-    Actualiza conda para asegurarse de que esté en su última versión.
-
-8. **RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir poetry jupyterlab ipykernel**  
-    Actualiza pip e instala paquetes de Python (Poetry, JupyterLab, ipykernel).
-
-9. **RUN curl -fsSL https://code-server.dev/install.sh | bash**  
-    Descarga e instala code-server (VS Code Server).
-
-10. **EXPOSE 8888 8080**  
-     Declara los puertos que se expondrán: 8888 (JupyterLab) y 8080 (code-server).
-
-11. **CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && (...) exec bash"]**  
-     Define el comando que se ejecuta al iniciar el contenedor, iniciando JupyterLab y code-server, y dejando la terminal activa.
+7. **Exponer puertos y definir CMD**  
+   Expone los puertos 8888 (JupyterLab) y 8080 (VS Code) e inicia ambos servicios.
 
 ### Ejecutar y Crear el Contenedor
 
@@ -217,12 +220,12 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python3.12-full -f ./curso-introduccion/docker-images/Dockerfile.PythonFull .
+     docker build -t python3.12-conda -f ./curso-introduccion/docker-images/Dockerfile.PythonConda .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-full:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-conda:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
@@ -235,19 +238,19 @@ Estando en la carpeta padre del proyecto:
      Y para `Jupyterlab`:
 
      ```bash
-     http://127.0.0.1/8888/lab
+     http://127.0.0.1:8888/lab
      ```
 
 #### Windows
 
 1. Construir la imagen de Docker:
      ```cmd
-     docker build -t python3.12-full -f .\curso-introduccion\docker-images\Dockerfile.PythonFull .
+     docker build -t python3.12-conda -f .\curso-introduccion\docker-images\Dockerfile.PythonConda .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```powershell
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-full:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-conda:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
@@ -261,6 +264,95 @@ Estando en la carpeta padre del proyecto:
 
      ```powershell
      http://127.0.0.1:8888/lab
+     ```
+
+## Dockerfile.PythonCode
+
+Imagen ligera con Python 3.12 y VS Code Server, enfocada en proporcionar un entorno de desarrollo remoto a través del navegador.
+
+```dockerfile
+FROM python:3.12
+ 
+# Instalar utilidades necesarias
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    curl \
+    git \
+    wget \
+    sudo \
+    ca-certificates \
+    libnss3 \
+    make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+ 
+# Instalar paquetes Python necesarios para notebooks en VS-Code
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython
+ 
+# Instalar Code-Server (VS Code Server)
+RUN curl -fsSL https://code-server.dev/install.sh | bash
+
+# Instalar extensiones de VS-Code para notebooks
+RUN code-server --install-extension ms-toolsai.jupyter
+
+# Exponer solo el puerto para VS Code
+EXPOSE 8080
+ 
+# CMD para iniciar solo Code-Server
+CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+    exec bash"]
+```
+
+1. **Instalar utilidades necesarias**  
+   Instala herramientas básicas de desarrollo y sistema.
+
+3. **Instalar paquetes Python para notebooks**  
+   Configura los paquetes mínimos necesarios para trabajar con notebooks en VS Code.
+
+4. **Instalar Code-Server y extensión Jupyter**  
+   Instala VS Code Server y la extensión para trabajar con notebooks Jupyter.
+
+5. **CMD para iniciar Code-Server**  
+   Inicia VS Code Server en el puerto 8080 sin autenticación.
+
+### Ejecutar y Crear el Contenedor
+
+Estando en la carpeta padre del proyecto:
+
+#### Linux/MacOS
+
+1. Construir la imagen de Docker:
+     ```sh
+     docker build -t python3.12-code -f ./curso-introduccion/docker-images/Dockerfile.PythonCode .
+     ```
+
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
+     ```sh
+     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-code:latest
+     ```
+
+3. Acceder a VS Code Server:
+     ```bash
+     http://localhost:8080/?folder=/desarrollo-analitico-oic
+     ```
+
+#### Windows
+
+1. Construir la imagen de Docker:
+     ```cmd
+     docker build -t python3.12-code -f .\curso-introduccion\docker-images\Dockerfile.PythonCode .
+     ```
+
+2. Ejecutar el contenedor montando la carpeta actual como volumen:
+     ```powershell
+     docker run -it --rm -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-code:latest
+     ```
+
+3. Acceder a VS Code Server:
+     ```powershell
+     http://localhost:8080/?folder=/desarrollo-analitico-oic
      ```
 
 ## Publicar la Imagen en Docker Hub
@@ -284,40 +376,48 @@ Para publicar las imágenes en Docker Hub, sigue estos pasos:
      ```sh
      docker tag python3.12-jupyterlab tu-usuario-dockerhub/nombre-asignado:python3.12-jupyterlab
      ```
-     Para PythonFull:
+     Para PythonConda:
      ```sh
-     docker tag python3.12-full tu-usuario-dockerhub/nombre-asignado:python3.12-full
+     docker tag python3.12-conda tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     ```
+     Para PythonCode:
+     ```sh
+     docker tag python3.12-code tu-usuario-dockerhub/nombre-asignado:python3.12-code
      ```
 3. Subir las imágenes a Docker Hub
    Una vez etiquetadas, puedes subirlas a Docker Hub:
 
      Para PythonMin:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado/python3.12:latest
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12
      ```
      Para PythonJupyterlab:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado/pythonjupyterlab:latest
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-jupyterlab
      ```
-     Para PythonFull:
+     Para PythonConda:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado/pythonfull:latest
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     ```
+     Para PythonCode:
+     ```sh
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-code
      ```
 4. Descargar y utilizar imágenes desde Docker Hub
    Para descargar y usar una imagen publicada:
 
      ```sh
-     docker pull tu-usuario-dockerhub/nombre-asignado/pythonfull:latest
+     docker pull tu-usuario-dockerhub/nombre-asignado:python3.12-conda
      ```
 
      Para Linux:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/pythonfull:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python3.12-conda
      ```
 
      Para Windows:
      ```powershell
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/pythonfull:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python3.12-conda
      ```
 5. Explicación de los parámetros
 - `-it`: Permite la interacción con el contenedor.

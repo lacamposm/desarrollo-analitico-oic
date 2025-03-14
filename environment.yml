@@ -1,0 +1,16 @@
+name: desarrollo-analitico
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - jupyter-book
+  - ghp-import
+  - sphinx
+  - sphinx-rtd-theme
+  - sphinx-autodoc-typehints
+  - sphinx-copybutton
+  - myst-parser
+  - streamlit
+  - pandas
+  - numpy
+  - black
