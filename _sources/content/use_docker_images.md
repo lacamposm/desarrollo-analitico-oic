@@ -22,19 +22,19 @@ Estando en la carpeta padre del proyecto:
 1. Construir la imagen de Docker:
 
      ```bash
-     docker build -t python3.12 -f ./curso-introduccion/docker-images/Dockerfile.PythonMin .
+     docker build -t python3.12 -f ./curso-introduccion/docker-files/Dockerfile.PythonMin .
      ```
 
 3. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python-min:latest
+     docker run -it --rm -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12:latest
      ```
 
 #### Windows
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python3.12 -f .\curso-introduccion\docker-images\Dockerfile.PythonMin .
+     docker build -t python3.12 -f .\curso-introduccion\docker-files\Dockerfile.PythonMin .
      ```
 3. Ejecutar el contenedor montando la carpeta actual como volumen:
 
@@ -50,96 +50,6 @@ Estando en la carpeta padre del proyecto:
           python3.12:latest
      ```
 
-## Dockerfile.PythonJupyterlab
-
-Esta imagen instala JupyterLab junto a la extensión jupyterlab-git, facilitando la integración con repositorios Git. Es perfecta para desarrolladores y científicos de datos que necesiten un entorno robusto y flexible para trabajar de forma interactiva con notebooks y gestionar versiones de código.
-
-```dockerfile
-FROM python:3.12
-
-# Instalar Node.js 20+ y dependencias Git
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get update && apt-get install -y --no-install-recommends \
-    nodejs \
-    git \
-    git-lfs \
-    openssh-client \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Verificar Node.js y npm
-RUN node -v && npm -v
-
-# Actualizar pip e instalar JupyterLab + Extensión Git
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir jupyterlab jupyterlab-git==0.41.0 \
-    && jupyter server extension enable --py jupyterlab_git \
-    && jupyter lab build --dev-build=False --minimize=False
-
-# Configuración de git para JupyterLab
-RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
-    && git config --system --add safe.directory "*" \
-    && mkdir -p ~/.ssh && chmod 700 ~/.ssh \
-    && ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
-
-# Exponer el puerto de JupyterLab
-EXPOSE 8888
-
-# Comando para iniciar JupyterLab sin autenticación
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''", "--NotebookApp.disable_check_xsrf=True"]
-```
-
-1. **RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - (...)** 
-   Agrega el repositorio oficial de Node.js versión 20, actualiza los paquetes e instala Node.js junto con herramientas Git.
-2. **RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir jupyterlab jupyterlab-git==0.41.0 (...)**  
-   Actualiza pip e instala JupyterLab y la extensión jupyterlab-git específicamente en la versión 0.41.0.
-
-5. **Configuración de git para JupyterLab**  
-   Configura Git para trabajar de manera integrada con JupyterLab, incluyendo manejo seguro de repositorios.
-
-6. **EXPOSE 8888**  
-   Expone el puerto 8888 para acceder a JupyterLab.
-
-7. **CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]**  
-   Inicia JupyterLab en la dirección IP 0.0.0.0 y el puerto 8888, sin requerir autenticación.
-
-### Ejecutar y Crear el Contenedor
-
-Estando en la carpeta padre del proyecto:
-
-#### Linux/MacOS
-
-1. Construir la imagen de Docker:
-     ```sh
-     docker build --no-cache -t python3.12-jupyterlab -f ./curso-introduccion/docker-images/Dockerfile.PythonJupyterlab .
-     ```
-
-2. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```sh
-     docker run -it --rm -p 8888:8888 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-jupyterlab
-     ```
-
-
-#### Windows
-
-1. Construir la imagen de Docker:
-     ```powershell
-     docker build --no-cache -t python3.12-jupyterlab -f .\curso-introduccion\docker-images\Dockerfile.PythonJupyterlab .
-     ```
-
-2. Ejecutar el contenedor montando la carpeta actual como volumen:
-     ```powershell
-     docker run -it --rm -p 8888:8888 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-jupyterlab
-     ```
-
-     O en una línea más legible usando el caracter de continuación ` :
-     ```powershell
-     docker run -it --rm `
-          -p 8888:8888 `
-          -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
-          -w "/$(Split-Path -Leaf $PWD)" `
-          python3.12-jupyterlab
-     ```
-
 ## Dockerfile.PythonConda
 
 Imagen completa basada en Miniconda con JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.
@@ -147,9 +57,10 @@ Imagen completa basada en Miniconda con JupyterLab y VS Code Server, pensada par
 Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye JupyterLab para notebooks y VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.
 
 ```dockerfile
+# 1. Imagen base utilizando continuumio/miniconda3, que ya incluye Conda preinstalado
 FROM continuumio/miniconda3
 
-# Instalar utilidades necesarias y Node.js
+# 2. Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -158,40 +69,45 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     ca-certificates \
     make \
+    libnss3 \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Verificar Node.js y npm
+# 3. Verificar Node.js y npm
 RUN node -v && npm -v
 
-# Actualizar conda y configurar canales
+# 4. Actualizar conda y configurar canales
 RUN conda update -n base -c defaults conda -y && \
     conda config --add channels conda-forge
 
-# Instalar paquetes Python esenciales con conda
+# 5. Instalar paquetes Python esenciales con conda.
 RUN conda install -y \
-    jupyterlab \
     ipykernel \
-    && conda clean -afy \
-    && pip install --no-cache-dir jupyterlab-git \
-    && jupyter server extension enable jupyterlab_git \
-    && jupyter lab build --dev-build=False --minimize=False
+    jupyter_client \
+    notebook \
+    jupyter_core \
+    nbformat \
+    && conda clean -afy
 
-# Configuración de git para JupyterLab
+# 6. Configuración de git
 RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     && git config --system --add safe.directory "*"
 
-# Instalar Code-Server (VS Code Server)
+# 7. Instalar VS Code-Server
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
-# Exponer puertos
+# 8. Configurar tema oscuro por defecto en VS Code
+RUN mkdir -p ~/.local/share/code-server/User && \
+    echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
+
+# 9. Exponer puertos (8080 para code-server y 8888 para el servidor de Jupyter)
 EXPOSE 8888 8080
 
-# CMD para iniciar JupyterLab y Code-Server
+# 10. CMD para iniciar notebook y Code-Server
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
-    jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
     --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
     exec bash"]
@@ -203,14 +119,14 @@ CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
 2. **Instalar utilidades necesarias y Node.js**  
    Instala herramientas esenciales como Git, cURL, wget, así como Node.js para desarrollo web.
 
-3. **Configuración de git para JupyterLab**  
-   Establece configuraciones de Git para trabajar correctamente con JupyterLab.
+3. **Configuración de seguridad Git**  
+   Configura Git para ignorar verificaciones de hosts SSH y marcar todos los directorios como seguros, evitando problemas de permisos.
 
-6. **Instalar Code-Server (VS Code Server)**  
+4. **Instalar Code-Server (VS Code Server)**  
    Instala VS Code Server para desarrollo en navegador.
 
-7. **Exponer puertos y definir CMD**  
-   Expone los puertos 8888 (JupyterLab) y 8080 (VS Code) e inicia ambos servicios.
+5. **Exponer puertos y definir CMD**  
+   Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.
 
 ### Ejecutar y Crear el Contenedor
 
@@ -220,50 +136,55 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python3.12-conda -f ./curso-introduccion/docker-images/Dockerfile.PythonConda .
+     docker build -t python-conda-notebooks-code-server -f ./curso-introduccion/docker-files/Dockerfile.PythonConda .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-conda:latest
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python-conda-notebooks-code-server:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
 
      Luego visita para `VScode`:
      ```bash
-     http://0.0.0.0:8080/?folder=/desarrollo-analitico-oic
+     http://127.0.0.1:8080/?folder=/desarrollo-analitico-oic
      ```
 
-     Y para `Jupyterlab`:
+     Y para `Notebooks`:
 
      ```bash
-     http://127.0.0.1:8888/lab
+     http://127.0.0.1:8888/tree?
      ```
 
 #### Windows
 
 1. Construir la imagen de Docker:
      ```powershell
-     docker build -t python3.12-conda -f .\curso-introduccion\docker-images\Dockerfile.PythonConda .
+     docker build -t python-conda-notebooks-code-server -f .\curso-introduccion\docker-files\Dockerfile.PythonConda .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```powershell
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-conda:latest
+     docker run -it --rm `
+     -p 8888:8888 `
+     -p 8080:8080 `
+     -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
+     -w "/$(Split-Path -Leaf $PWD)" `
+     python-conda-notebooks-code-server:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
 
      Luego visita:
      ```powershell
-     http://0.0.0.0:8080/?folder=/desarrollo-analitico-oic
+     http://127.0.0.1:8080/?folder=/desarrollo-analitico-oic
      ```
 
-     Y para `Jupyterlab`:
+     Y para `Notebooks`:
 
      ```powershell
-     http://127.0.0.1:8888/lab
+     http://127.0.0.1:8888/tree?
      ```
 
 ## Dockerfile.PythonCode
@@ -271,9 +192,10 @@ Estando en la carpeta padre del proyecto:
 Imagen ligera con Python 3.12 y VS Code Server, enfocada en proporcionar un entorno de desarrollo remoto a través del navegador.
 
 ```dockerfile
+# 1. Imagen base de Python 3.12
 FROM python:3.12
- 
-# Instalar utilidades necesarias
+
+# 2. Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -283,24 +205,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libnss3 \
     make \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
- 
-# Instalar paquetes Python necesarios para notebooks en VS-Code
+
+# 3. Instalar paquetes Python necesarios para notebooks en VS-Code
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython
- 
-# Instalar Code-Server (VS Code Server)
+    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython notebook jupyter_core nbformat
+
+# 4. Instalar Code-Server (VS Code Server)
 RUN curl -fsSL https://code-server.dev/install.sh | bash
 
-# Instalar extensiones de VS-Code para notebooks
-RUN code-server --install-extension ms-toolsai.jupyter
+# 5. Configurar tema oscuro por defecto en VS Code
+RUN mkdir -p ~/.local/share/code-server/User && \
+    echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
 
-# Exponer solo el puerto para VS Code
-EXPOSE 8080
- 
-# CMD para iniciar solo Code-Server
+# 6. Exponer puertos (8080 para code-server y un puerto para el servidor de Jupyter)
+EXPOSE 8080 8888
+
+# 7. CMD para iniciar Code-Server y un servidor de notebooks en segundo plano
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
     exec bash"]
 ```
@@ -325,12 +252,12 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python3.12-code -f ./curso-introduccion/docker-images/Dockerfile.PythonCode .
+     docker build -t python3.12-notebooks-code-server -f ./curso-introduccion/docker-files/Dockerfile.PythonCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-code:latest
+     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-notebooks-code-server
      ```
 
 3. Acceder a VS Code Server:
@@ -342,12 +269,16 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```powershell
-     docker build -t python3.12-code -f .\curso-introduccion\docker-images\Dockerfile.PythonCode .
+     docker build -t python3.12-notebooks-code-server -f .\curso-introduccion\docker-files\Dockerfile.PythonCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```powershell
-     docker run -it --rm -p 8080:8080 -v "${PWD}:/$(Split-Path -Leaf $PWD)" -w "/$(Split-Path -Leaf $PWD)" python3.12-code:latest
+     docker run -it --rm `
+     -p 8080:8080 `
+     -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
+     -w "/$(Split-Path -Leaf $PWD)" `
+     python3.12-notebooks-code-server
      ```
 
 3. Acceder a VS Code Server:
@@ -372,17 +303,13 @@ Para publicar las imágenes en Docker Hub, sigue estos pasos:
      ```sh
      docker tag python3.12 tu-usuario-dockerhub/nombre-asignado:python3.12
      ```
-     Para PythonJupyterlab:
-     ```sh
-     docker tag python3.12-jupyterlab tu-usuario-dockerhub/nombre-asignado:python3.12-jupyterlab
-     ```
      Para PythonConda:
      ```sh
-     docker tag python3.12-conda tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     docker tag python-conda-notebooks-code-server tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
      ```
      Para PythonCode:
      ```sh
-     docker tag python3.12-code tu-usuario-dockerhub/nombre-asignado:python3.12-code
+     docker tag python3.12-notebooks-code-server tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
      ```
 3. Subir las imágenes a Docker Hub
    Una vez etiquetadas, puedes subirlas a Docker Hub:
@@ -391,44 +318,42 @@ Para publicar las imágenes en Docker Hub, sigue estos pasos:
      ```sh
      docker push tu-usuario-dockerhub/nombre-asignado:python3.12
      ```
-     Para PythonJupyterlab:
-     ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-jupyterlab
-     ```
      Para PythonConda:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     docker push tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
      ```
      Para PythonCode:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-code
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
      ```
 4. Descargar y utilizar imágenes desde Docker Hub
    Para descargar y usar una imagen publicada:
 
      ```sh
-     docker pull tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     docker pull tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
      ```
 
      Para Linux:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
      ```
 
      Para Windows:
      ```powershell
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python3.12-conda
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
      ```
+
+     Asegúrate de reemplazar `tu-usuario-dockerhub` con tu nombre de usuario en Docker Hub si estás subiendo tus propias imágenes.
+
 5. Explicación de los parámetros
-- `-it`: Permite la interacción con el contenedor.
-- `--rm`: Elimina el contenedor al detenerse.
-- `-p 8888:8888`: Mapea el puerto 8888 para JupyterLab.
-- `-p 8080:8080`: Mapea el puerto 8080 para VS Code Server.
-- `-v "$(pwd):/workspace"`: Monta el directorio actual en el contenedor como `/workspace`.
-- `-w "/workspace"`: Define `/workspace` como el directorio de trabajo.
-   Una vez ejecutado el contenedor, puedes acceder a:
+     - `-it`: Permite la interacción con el contenedor.
+     - `--rm`: Elimina el contenedor al detenerse.
+     - `-p 8888:8888`: Mapea el puerto 8888 para JupyterLab.
+     - `-p 8080:8080`: Mapea el puerto 8080 para VS Code Server.
+     - `-v "$(pwd):/workspace"`: Monta el directorio actual en el contenedor como `/workspace`.
+     - `-w "/workspace"`: Define `/workspace` como el directorio de trabajo.
 
-   - JupyterLab: `http://localhost:8888`
-   - VS Code Server: `http://localhost:8080`
+     -  Una vez ejecutado el contenedor, puedes acceder a:
 
-Asegúrate de reemplazar `tu-usuario-dockerhub` con tu nombre de usuario en Docker Hub si estás subiendo tus propias imágenes.
+          - JupyterLab: `http://localhost:8888`
+          - VS Code Server: `http://localhost:8080`

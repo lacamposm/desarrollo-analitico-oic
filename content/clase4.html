@@ -1,0 +1,781 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>📈Clase 4: Modelo Analítico con Regresión Lineal📈 &#8212; Curso de Desarrollo Analítico con Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/clase4';</script>
+    <link rel="canonical" href="https://lacamposm.github.io/desarrollo-analitico-oic/content/clase4.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="📘Clase 3: OOP y Documentación Profesional📘" href="clase3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_python.jpg" class="logo__image only-light" alt="Curso de Desarrollo Analítico con Python - Home"/>
+    <script>document.write(`<img src="../_static/logo_python.jpg" class="logo__image only-dark" alt="Curso de Desarrollo Analítico con Python - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    🚀 Bienvenido al Curso de Inducción para el Desarrollo Analítico del OIC 🚀
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contenido.html">📆 <strong>Sesiones de clase</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase1.html"><em><strong>💻Clase 1: Introducción a Git y GitHub💻</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_docker_windows.html">Instalación de Docker en Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase2.html"><em><strong>🐳Clase 2: Docker y Python🐳</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_docker_images.html"><em><strong>Construyendo y corriendo imagenes Docker en local.</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase3.html"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><em><strong>📈Clase 4: Modelo Analítico con Regresión Lineal📈</strong></em></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/edit/main/curso-introduccion/content/clase4.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/issues/new?title=Issue%20on%20page%20%2Fcontent/clase4.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/clase4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>📈Clase 4: Modelo Analítico con Regresión Lineal📈</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-general">Visión general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-clase">Objetivos de la clase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-clase">Contenido de la clase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion-a-modelos-analiticos-utilizando-regresion">1. Introducción a modelos analíticos utilizando regresión</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-de-la-regresion">Fundamentos de la regresión</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-del-dataset-house-prices">2. Exploración del dataset “House Prices”</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-del-dataset-house-prices-perspectiva-adicional">Exploración del dataset “House Prices” (perspectiva adicional)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-y-validacion-de-modelos">3. Construcción y validación de modelos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-modelos-de-regresion">Construcción de modelos de regresión</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-de-modelos-entrenados">4. Exportación de modelos entrenados</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-y-documentacion-de-modelos">Exportación y documentación de modelos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentacion-asociada-al-modelo">5. Documentación asociada al modelo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-el-desafio-del-modelo-inmobiliario">Actividad práctica: El desafío del modelo inmobiliario</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacion-del-entorno-20-min">1. Preparación del entorno (20 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-inicial-20-min">2. Exploración inicial (20 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experimentacion-con-modelos-40-min">3. Experimentación con modelos (40 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentacion-y-presentacion-15-min">4. Documentación y presentación (15 min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividades-y-evaluacion">Actividades y evaluación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-recomendados">Recursos recomendados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-complementarios">Recursos complementarios</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clase-4-modelo-analitico-con-regresion-lineal">
+<h1><em><strong>📈Clase 4: Modelo Analítico con Regresión Lineal📈</strong></em><a class="headerlink" href="#clase-4-modelo-analitico-con-regresion-lineal" title="Link to this heading">#</a></h1>
+<p>En el mundo real, los datos rara vez vienen limpios y listos para modelar. Esta clase nos introduce en el ciclo completo de un proyecto analítico basado en regresión, desde la preparación de datos hasta la implementación del modelo en entornos de producción.</p>
+<section id="vision-general">
+<h2>Visión general<a class="headerlink" href="#vision-general" title="Link to this heading">#</a></h2>
+<p>Esta clase aborda el ciclo completo de la creación de modelos predictivos basados en regresión, utilizando datos reales del mercado inmobiliario. Conectaremos la teoría con aplicaciones prácticas, desde la exploración inicial hasta la implementación.</p>
+</section>
+<hr class="docutils" />
+<section id="objetivos-de-la-clase">
+<h2>Objetivos de la clase<a class="headerlink" href="#objetivos-de-la-clase" title="Link to this heading">#</a></h2>
+<p>Trabajaremos con el dataset “House Prices” de Kaggle, una colección rica en características que presenta múltiples desafíos comunes en proyectos reales. Aprenderemos cómo:</p>
+<ul class="simple">
+<li><p>Convertir datos imperfectos en información accionable</p></li>
+<li><p>Diseñar modelos predictivos efectivos</p></li>
+<li><p>Preparar nuestro trabajo para implementación en producción</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="contenido-de-la-clase">
+<h2>Contenido de la clase<a class="headerlink" href="#contenido-de-la-clase" title="Link to this heading">#</a></h2>
+<section id="introduccion-a-modelos-analiticos-utilizando-regresion">
+<h3>1. Introducción a modelos analíticos utilizando regresión<a class="headerlink" href="#introduccion-a-modelos-analiticos-utilizando-regresion" title="Link to this heading">#</a></h3>
+<p>La regresión, en su esencia, busca responder la pregunta: “¿Cómo cambia Y cuando X se modifica?”. Aunque parece simple, este concepto sustenta muchas decisiones de negocio críticas:</p>
+<blockquote>
+<div><p>“Predecir no es solo cuestión de algoritmos, sino de entender qué impulsa realmente el fenómeno que modelamos.”</p>
+</div></blockquote>
+<p>Los modelos lineales son sorprendentes en muchas situaciones, pero debemos ser conscientes de sus limitaciones:</p>
+<ul class="simple">
+<li><p>Asumen relaciones lineales (¿es esto realista para nuestros datos?)</p></li>
+<li><p>Son sensibles a valores atípicos (¿hemos identificado los outliers?)</p></li>
+<li><p>Requieren independencia entre predictores (¿existe multicolinealidad?)</p></li>
+</ul>
+<p><strong>Reflexión:</strong> ¿Por qué muchas organizaciones siguen prefiriendo modelos simples sobre algoritmos más complejos?</p>
+<section id="fundamentos-de-la-regresion">
+<h4>Fundamentos de la regresión<a class="headerlink" href="#fundamentos-de-la-regresion" title="Link to this heading">#</a></h4>
+<p>Los modelos de regresión buscan encontrar una función que aproxime la relación entre las características de entrada y la variable objetivo, minimizando el error entre las predicciones y los valores reales. Esta aproximación matemática nos proporciona no solo capacidades predictivas sino también <em>insights</em> sobre la importancia relativa de cada variable.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exploracion-del-dataset-house-prices">
+<h3>2. Exploración del dataset “House Prices”<a class="headerlink" href="#exploracion-del-dataset-house-prices" title="Link to this heading">#</a></h3>
+<p>El EDA no es solo una fase preliminar, sino una conversación continua con nuestros datos. Al explorar este dataset, descubriremos:</p>
+<ul class="simple">
+<li><p>Patrones, correlaciones y posibles anomalías</p></li>
+<li><p>Disparidades en variables numéricas y categóricas</p></li>
+<li><p>Cómo la estructura y la calidad de los datos influyen en la modelización</p></li>
+</ul>
+<blockquote>
+<div><p>“Los modelos aprenden de los datos, pero el preprocesamiento decide qué pueden aprender.”</p>
+</div></blockquote>
+<p><strong>Calidad de nuestro modelo:</strong> Depende de decisiones críticas durante el preprocesamiento, como el tratamiento de valores faltantes, la codificación de variables categóricas y la normalización o estandarización de variables.</p>
+<section id="exploracion-del-dataset-house-prices-perspectiva-adicional">
+<h4>Exploración del dataset “House Prices” (perspectiva adicional)<a class="headerlink" href="#exploracion-del-dataset-house-prices-perspectiva-adicional" title="Link to this heading">#</a></h4>
+<p>Este conjunto de datos de Kaggle representa un caso de estudio ideal para la regresión, al combinar variables numéricas y categóricas con diferentes niveles de influencia sobre el precio final. Durante la exploración, identificaremos distribuciones sesgadas y cómo manejarlas. El preprocesamiento transformará datos crudos en características modelables, determinando en gran medida el rendimiento final del modelo.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="construccion-y-validacion-de-modelos">
+<h3>3. Construcción y validación de modelos<a class="headerlink" href="#construccion-y-validacion-de-modelos" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>“Un modelo es tan bueno como su capacidad para generalizar, no para memorizar.”</p>
+</div></blockquote>
+<p><strong>Ciclo iterativo de experimentación:</strong></p>
+<ol class="arabic simple">
+<li><p>Selección de características relevantes</p></li>
+<li><p>Pruebas con diferentes algoritmos de regresión</p></li>
+<li><p>Optimización y validación de resultados</p></li>
+</ol>
+<p>En esta fase, la validación es donde la teoría enfrenta la realidad:</p>
+<ul class="simple">
+<li><p>La validación cruzada es más confiable que una simple división <em>train/test</em></p></li>
+<li><p>Las métricas deben alinearse con los objetivos del negocio (¿importa más la precisión o reducir errores grandes?)</p></li>
+<li><p>Los modelos perfectos en entrenamiento suelen ser los peores en producción</p></li>
+</ul>
+<section id="construccion-de-modelos-de-regresion">
+<h4>Construcción de modelos de regresión<a class="headerlink" href="#construccion-de-modelos-de-regresion" title="Link to this heading">#</a></h4>
+<p>Más allá de la regresión lineal básica, consideramos técnicas regularizadas como <strong>Ridge</strong>, <strong>Lasso</strong> y <strong>ElasticNet</strong>:</p>
+<ul class="simple">
+<li><p><strong>Ridge:</strong> Útil para datos con multicolinealidad</p></li>
+<li><p><strong>Lasso:</strong> Facilita la selección automática de características</p></li>
+<li><p><strong>ElasticNet:</strong> Ofrece un equilibrio entre Ridge y Lasso</p></li>
+</ul>
+<p>La comparación de modelos con métricas como RMSE y R², y el uso de validación cruzada, nos ayudarán a evaluar el rendimiento y seleccionar el mejor enfoque.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exportacion-de-modelos-entrenados">
+<h3>4. Exportación de modelos entrenados<a class="headerlink" href="#exportacion-de-modelos-entrenados" title="Link to this heading">#</a></h3>
+<p>La brecha entre desarrollo y producción causa muchos fracasos en proyectos de ciencia de datos:</p>
+<ul class="simple">
+<li><p><strong>Versiones de bibliotecas:</strong> Asegurar compatibilidad en el entorno productivo</p></li>
+<li><p><strong>Tamaño y seguridad:</strong> Considerar restricciones de memoria y posibles datos sensibles</p></li>
+<li><p><strong>Preprocesamiento replicable:</strong> Usar <em>pipelines</em> o transformaciones idénticas en entrenamiento e inferencia</p></li>
+</ul>
+<blockquote>
+<div><p>“La ciencia de datos termina cuando el modelo resuelve el problema, no cuando el código funciona.”</p>
+</div></blockquote>
+<section id="exportacion-y-documentacion-de-modelos">
+<h4>Exportación y documentación de modelos<a class="headerlink" href="#exportacion-y-documentacion-de-modelos" title="Link to this heading">#</a></h4>
+<p>Una serialización adecuada (con <em>pickle</em> o <em>joblib</em>) preserva no solo los parámetros del modelo sino también las transformaciones previas aplicadas. Así garantizamos que el despliegue en producción sea coherente con el entrenamiento.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="documentacion-asociada-al-modelo">
+<h3>5. Documentación asociada al modelo<a class="headerlink" href="#documentacion-asociada-al-modelo" title="Link to this heading">#</a></h3>
+<p>Un modelo sin documentación es como un experimento irrepetible. La documentación debe anticipar las preguntas que surgirán en el uso y mantenimiento:</p>
+<ul class="simple">
+<li><p>¿Qué asunciones incorpora el modelo?</p></li>
+<li><p>¿Bajo qué condiciones podría fallar?</p></li>
+<li><p>¿Cuándo debería ser reentrenado?</p></li>
+</ul>
+<blockquote>
+<div><p>“La documentación no es un apéndice del proyecto, sino una parte integral del producto.”</p>
+</div></blockquote>
+<p><strong>Buenas prácticas:</strong> Incluir “Model Cards” que expliquen el contexto, uso previsto y limitaciones del modelo, facilitando la comunicación con equipos técnicos y de negocio.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="actividad-practica-el-desafio-del-modelo-inmobiliario">
+<h2>Actividad práctica: El desafío del modelo inmobiliario<a class="headerlink" href="#actividad-practica-el-desafio-del-modelo-inmobiliario" title="Link to this heading">#</a></h2>
+<p>Se desarrollará un modelo predictivo para estimar precios de viviendas siguiendo estos pasos:</p>
+<section id="preparacion-del-entorno-20-min">
+<h3>1. Preparación del entorno (20 min)<a class="headerlink" href="#preparacion-del-entorno-20-min" title="Link to this heading">#</a></h3>
+<p>A fin de estandarizar y replicar fácilmente el ambiente de desarrollo, usaremos un contenedor Docker. Usaremos los previamente
+explorados y <a class="reference external" href="https://hub.docker.com/r/lacamposm/docker-helpers/tags">construidos en clase.</a></p>
+</section>
+<section id="exploracion-inicial-20-min">
+<h3>2. Exploración inicial (20 min)<a class="headerlink" href="#exploracion-inicial-20-min" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Identifiquen las 5 variables que consideren más importantes para predecir el precio</p></li>
+<li><p>Justifiquen su selección con visualizaciones</p></li>
+</ul>
+</section>
+<section id="experimentacion-con-modelos-40-min">
+<h3>3. Experimentación con modelos (40 min)<a class="headerlink" href="#experimentacion-con-modelos-40-min" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Implementar el modelo de regresion.</p></li>
+<li><p>Evaluar su rendimiento.</p></li>
+</ul>
+</section>
+<section id="documentacion-y-presentacion-15-min">
+<h3>4. Documentación y presentación (15 min)<a class="headerlink" href="#documentacion-y-presentacion-15-min" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Explicar brevemente el enfoque.</p></li>
+<li><p>Proponer un caso de uso concreto para su implementación.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="actividades-y-evaluacion">
+<h2>Actividades y evaluación<a class="headerlink" href="#actividades-y-evaluacion" title="Link to this heading">#</a></h2>
+<p>Las actividades prácticas se centrarán en la aplicación de conceptos teóricos al dataset de House Prices, con énfasis en la interpretabilidad y la robustez de los modelos desarrollados. Se fomentará el análisis crítico de resultados y la justificación de decisiones metodológicas.</p>
+<p>La evaluación considerará tanto el rendimiento técnico de los modelos como la claridad en la comunicación de resultados y limitaciones, reflejando las competencias necesarias en entornos profesionales de ciencia de datos.</p>
+</section>
+<hr class="docutils" />
+<section id="reflexion-final">
+<h2>Reflexión final<a class="headerlink" href="#reflexion-final" title="Link to this heading">#</a></h2>
+<p>Los modelos analíticos son herramientas poderosas, pero requieren contexto y juicio humano para ser efectivos. El valor real está en transformar datos en decisiones informadas, no en la complejidad técnica.</p>
+<blockquote>
+<div><p>“El objetivo de un modelo no es ser perfecto, sino ser útil.”</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="recursos-recomendados">
+<h2>Recursos recomendados<a class="headerlink" href="#recursos-recomendados" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Exploratory Data Analysis with Python</strong><br />
+<a class="reference internal" href="#"><span class="xref myst">DataQuest - Exploratory Data Analysis</span></a></p></li>
+<li><p><strong>The Art of Feature Engineering</strong><br />
+<a class="reference internal" href="#"><span class="xref myst">DataCamp - The Art of Feature Engineering</span></a></p></li>
+<li><p><strong>Practical Guide to scikit-learn’s Pipeline</strong><br />
+<a class="reference external" href="https://scikit-learn.org/stable/modules/compose.html#pipeline">scikit-learn Documentation – Pipeline</a></p></li>
+<li><p><strong>Dataset “House Prices” en Kaggle</strong><br />
+<a class="reference external" href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques">House Prices – Advanced Regression Techniques</a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="recursos-complementarios">
+<h2>Recursos complementarios<a class="headerlink" href="#recursos-complementarios" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Lecturas sobre interpretabilidad de modelos de regresión</strong><br />
+<a class="reference internal" href="#"><span class="xref myst">Interpretable Machine Learning by Christoph Molnar</span></a></p></li>
+<li><p><strong>Técnicas avanzadas de regularización</strong><br />
+<a class="reference internal" href="#"><span class="xref myst">A Comprehensive Guide to Regularization in Machine Learning</span></a></p></li>
+<li><p><strong>Mejores prácticas para la documentación de modelos analíticos</strong><br />
+<a class="reference internal" href="#"><span class="xref myst">Model Documentation Best Practices – Neptune.ai</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="clase3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-general">Visión general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-clase">Objetivos de la clase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-clase">Contenido de la clase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion-a-modelos-analiticos-utilizando-regresion">1. Introducción a modelos analíticos utilizando regresión</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamentos-de-la-regresion">Fundamentos de la regresión</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-del-dataset-house-prices">2. Exploración del dataset “House Prices”</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-del-dataset-house-prices-perspectiva-adicional">Exploración del dataset “House Prices” (perspectiva adicional)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-y-validacion-de-modelos">3. Construcción y validación de modelos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-modelos-de-regresion">Construcción de modelos de regresión</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-de-modelos-entrenados">4. Exportación de modelos entrenados</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-y-documentacion-de-modelos">Exportación y documentación de modelos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentacion-asociada-al-modelo">5. Documentación asociada al modelo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-el-desafio-del-modelo-inmobiliario">Actividad práctica: El desafío del modelo inmobiliario</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacion-del-entorno-20-min">1. Preparación del entorno (20 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploracion-inicial-20-min">2. Exploración inicial (20 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experimentacion-con-modelos-40-min">3. Experimentación con modelos (40 min)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentacion-y-presentacion-15-min">4. Documentación y presentación (15 min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividades-y-evaluacion">Actividades y evaluación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-recomendados">Recursos recomendados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-complementarios">Recursos complementarios</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Luis Andrés Campos Maldonado
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  Publicado bajo licencia MIT. Creado con Jupyter Book.
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
