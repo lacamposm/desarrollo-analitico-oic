@@ -61,26 +61,27 @@ Esta sesión abordará los principios fundamentales de la programación orientad
 ---
 
 ## 📌 **Clase 4 – Viernes, 21 de marzo de 2025**
+**Implementación de un Proyecto Analítico Completo**
+
+En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un modelo de estimación de precios de predios con una API REST utilizando `FastAPI`, almacenamiento en PostgreSQL y orquestación con `Docker`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna.
+
+- Implementación de un modelo básico de estimación de precios de predios.
+- Creación de una API REST con `FastAPI` para exponer el modelo como servicio.
+- Configuración de PostgreSQL para almacenamiento persistente de datos y predicciones.
+- Despliegue de la solución completa con `Docker` y `docker-compose`.
+- Desarrollo de una interfaz interactiva con `Streamlit` para consultar predicciones.
+
+---
+
+## 📌 **Clase 5 – Martes, 25 de marzo de 2025**
 **Modelo Analítico con Regresión**
 
-En esta clase profundizaremos en la creación y validación de modelos analíticos utilizando técnicas de regresión, apoyados en el dataset real "House Prices" de Kaggle. Aprenderemos a preparar los datos correctamente, construir modelos robustos, y exportar resultados en formatos listos para producción.
+En esta clase profundizaremos en la creación y validación de modelos analíticos utilizando técnicas de regresión, apoyados en el dataset real "House Prices" de Kaggle.
 
 - Introducción a modelos analíticos utilizando regresión.
 - Exploración del dataset "House Prices" (Kaggle), preprocesamiento y modelado.
 - Exportación de modelos entrenados (formatos consumibles como `.pkl`).
 - Recomendaciones sobre documentación asociada al modelo.
-
----
-
-## 📌 **Clase 5 – Martes, 25 de marzo de 2025**
-**Creación de APIs con FastAPI**
-
-Nos centraremos en cómo exponer modelos analíticos como servicios web utilizando FastAPI, una herramienta potente y moderna para construir APIs rápidas y fáciles de consumir. Aprenderemos conceptos clave sobre APIs REST, cómo implementar rutas y operaciones comunes, y buenas prácticas de desarrollo.
-
-- Introducción al desarrollo de servicios `REST` con `FastAPI`.
-- Implementación de métodos básicos: `GET`, `POST`.
-- Validación y documentación interactiva con `FastAPI`.
-- Buenas prácticas en el desarrollo de `APIs`.
 
 ---
 
