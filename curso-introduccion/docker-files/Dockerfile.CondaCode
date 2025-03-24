@@ -1,0 +1,44 @@
+# Imagen base utilizando continuumio/miniconda3, con Conda preinstalado
+FROM continuumio/miniconda3
+
+# Instalar utilidades necesarias y Node.js
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    curl \
+    git \
+    wget \
+    sudo \
+    ca-certificates \
+    make \
+    libnss3 \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update && apt-get install -y --no-install-recommends nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://code-server.dev/install.sh | bash
+
+# Verificar Node.js y npm
+RUN node -v && npm -v
+
+# Instalar extensiones de VS Code (code-server) para Python, Jupyter y Git Graph
+RUN code-server --install-extension ms-python.python \
+    && code-server --install-extension ms-toolsai.jupyter \
+    && code-server --install-extension ms-toolsai.jupyter-keymap \
+    && code-server --install-extension ms-toolsai.jupyter-renderers \
+    && code-server --install-extension mhutchie.git-graph
+
+# Configurar tema oscuro por defecto en VS Code
+RUN mkdir -p ~/.local/share/code-server/User && \
+    echo '{"workbench.colorTheme": "Default Dark Modern", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
+
+# Configuración de git
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*"
+
+# Exponer puerto 8080 para code-server
+EXPOSE 8080
+
+# CMD para iniciar Vs-Code-Server.
+CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
+     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+     exec bash"]

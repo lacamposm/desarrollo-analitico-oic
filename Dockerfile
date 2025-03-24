@@ -1,35 +1,30 @@
-FROM lacamposm/docker-helpers:python3.12-notebooks-code-server
+#  --------------  CASO USO Conda-VScode  -------------- #
+FROM lacamposm/docker-helpers:conda-vscode
 
 WORKDIR /desarrollo-analitico-oic
 
-COPY requirements.txt requirements.txt
+COPY environment.yml environment.yml
 
-# Instalar dependencias con pip
-RUN python -m pip install --upgrade pip
-RUN python -m pip install -r requirements.txt
+# Crear el environment de Conda a partir del environment.yml
+RUN conda env create -f environment.yml
 
-# Puerto Streamlit
-EXPOSE 8501
+# Configurar la activación automática del entorno conda
+RUN echo 'eval "$(conda shell.bash hook)"' >> ~/.bashrc && \
+    echo 'conda activate desarrollo-analitico-oic' >> ~/.bashrc
 
-#  ------------  CASO USO IMAGEN CONDA  ------------ #
-# FROM lacamposm/docker-helpers:python-conda-notebooks-code-server
+# Puerto para VScode-server y Streamlit
+EXPOSE 8080 8501
+
+#  --------------  CASO USO Poetry-VScode  -------------- #
+# FROM lacamposm/docker-helpers:python3.12-poetry-vscode
 
 # WORKDIR /desarrollo-analitico-oic
 
-# COPY environment.yml environment.yml
+# COPY requirements.txt requirements.txt
 
-# # Crear el environment de Conda a partir del environment.yml
-# RUN conda env create -f environment.yml
+# # Instalar dependencias con pip
+# RUN python -m pip install --upgrade pip
+# RUN python -m pip install -r requirements.txt
 
-# # Usar el environment para los siguientes comandos
-# SHELL ["conda", "run", "-n", "desarrollo-analitico-oic", "/bin/bash", "-c"]
-
-# # Instalar el paquete notebook, que provee el comando jupyter-notebook
-# RUN pip install notebook
-
-# # Configurar la activación automática del entorno conda
-# RUN echo 'eval "$(conda shell.bash hook)"' >> ~/.bashrc && \
-#     echo 'conda activate desarrollo-analitico-oic' >> ~/.bashrc
-
-# # Puerto para Streamlit
+# # Puerto para VScode-server y Streamlit
 # EXPOSE 8501

@@ -1,6 +1,7 @@
 name: desarrollo-analitico-oic
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - python=3.12
   - jupyter-book
@@ -14,3 +15,4 @@ dependencies:
   - pandas
   - numpy
   - black
+  - jupyter

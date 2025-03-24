@@ -1,4 +1,5 @@
 jupyter-book
+jupyter
 ghp-import
 sphinx
 sphinx-rtd-theme

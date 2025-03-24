@@ -44,7 +44,7 @@ En esta clase abordaremos `Python` como lenguaje fundamental para analítica de 
 
 - Introducción básica a Docker.
 - Ambientes virtuales (`venv`, `conda`).
-- Construccion de imagen Docker con kernel `Python` para usar con [`JupyterLab`](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html) y [`Vscode-server`](https://code.visualstudio.com/docs/remote/vscode-server)
+- Construccion de imagen Docker con kernel `Python` para usar con [`Vscode-server`](https://code.visualstudio.com/docs/remote/vscode-server)
 
 ---
 
@@ -63,7 +63,7 @@ Esta sesión abordará los principios fundamentales de la programación orientad
 ## 📌 **Clase 4 – Viernes, 21 de marzo de 2025**
 **Implementación de un Proyecto Analítico Completo**
 
-En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un modelo de estimación de precios de predios con una API REST utilizando `FastAPI`, almacenamiento en PostgreSQL y orquestación con `Docker`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna.
+En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un modelo de estimación de precios de predios con una API REST utilizando `FastAPI`, almacenamiento en `PostgreSQL` y orquestación con `Docker`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna.
 
 - Implementación de un modelo básico de estimación de precios de predios.
 - Creación de una API REST con `FastAPI` para exponer el modelo como servicio.
@@ -76,12 +76,8 @@ En esta clase desarrollaremos un proyecto analítico a menor escala, integrando 
 ## 📌 **Clase 5 – Martes, 25 de marzo de 2025**
 **Modelo Analítico con Regresión**
 
-En esta clase profundizaremos en la creación y validación de modelos analíticos utilizando técnicas de regresión, apoyados en el dataset real "House Prices" de Kaggle.
+En esta clase profundizaremos en la construccion de nuestro servicio completo con `FastAPI`, implementando un modelo de regresion lineal multiple con `sklearn` sobre la informacion en la tabla [`raw_data`]()de nuestra base de datos `Postgres`.  Ademas, veremos una introduccion a la libreria `GeoPandas` como facilitador para la manipulacion basica de informacion geografica. Finalmente exportaremos nuestro modelo a un formato facilmente consumible como el un `.pkl`.
 
-- Introducción a modelos analíticos utilizando regresión.
-- Exploración del dataset "House Prices" (Kaggle), preprocesamiento y modelado.
-- Exportación de modelos entrenados (formatos consumibles como `.pkl`).
-- Recomendaciones sobre documentación asociada al modelo.
 
 ---
 
