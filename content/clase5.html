@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo &#8212; Curso de Desarrollo Analítico con Python</title>
+    <title>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple &#8212; Curso de Desarrollo Analítico con Python</title>
   
   
   
@@ -57,12 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'content/clase4';</script>
-    <link rel="canonical" href="https://lacamposm.github.io/desarrollo-analitico-oic/content/clase4.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/clase5';</script>
+    <link rel="canonical" href="https://lacamposm.github.io/desarrollo-analitico-oic/content/clase5.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="🛠️Clase 5: Endpoints - Modelo de Regresión Multiple" href="clase5.html" />
-    <link rel="prev" title="📘Clase 3: OOP y Documentación Profesional📘" href="clase3.html" />
+    <link rel="prev" title="🛠️ Clase 4: Implementación de un Proyecto Analítico Completo" href="clase4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -187,8 +186,8 @@
 <li class="toctree-l1"><a class="reference internal" href="clase2.html"><em><strong>🐳Clase 2: Docker y Python🐳</strong></em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_docker_images.html"><em><strong>Construyendo y corriendo imagenes Docker en local.</strong></em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="clase3.html"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em></a></li>
-<li class="toctree-l1"><a class="reference internal" href="clase5.html"><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase4.html"><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em></a></li>
 </ul>
 
     </div>
@@ -260,7 +259,7 @@
       
       
       
-      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/edit/main/curso-introduccion/content/clase4.md" target="_blank"
+      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/edit/main/curso-introduccion/content/clase5.md" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -277,7 +276,7 @@
       
       
       
-      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/issues/new?title=Issue%20on%20page%20%2Fcontent/clase4.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/lacamposm/desarrollo-analitico-oic/issues/new?title=Issue%20on%20page%20%2Fcontent/clase5.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -307,7 +306,7 @@
       
       
       
-      <li><a href="../_sources/content/clase4.md" target="_blank"
+      <li><a href="../_sources/content/clase5.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -391,7 +390,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</h1>
+    <h1>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -401,23 +400,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-sesion">Objetivos de la Sesión</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#componentes-del-proyecto">Componentes del Proyecto</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-analitico">1. “Modelo” Analítico.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#api-con-fastapi">2. API con FastAPI</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-de-datos-postgresql">3. Base de Datos PostgreSQL</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orquestacion-con-docker">4. Orquestación con Docker</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaz-de-usuario-con-streamlit">5. Interfaz de Usuario con Streamlit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacion-del-entorno-y-pruebas-35-min">Preparación del entorno y pruebas (35 min)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interaccion-con-la-api-60-min">Interacción con la API (60 min)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-con-postgresql-20-min">Persistencia con PostgreSQL (20 min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-sesion">Objetivos de la Sesión</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-modelo">1. Construcción del Modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-del-servicio-con-fastapi">2. Implementación del Servicio con FastAPI</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión Final</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-y-referencias">Recursos y Referencias</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-llevar-mas-alla">Para llevar más allá</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-y-referencias">Recursos y referencias</a></li>
 </ul>
             </nav>
         </div>
@@ -429,107 +418,64 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="clase-4-implementacion-de-un-proyecto-analitico-completo">
-<h1><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em><a class="headerlink" href="#clase-4-implementacion-de-un-proyecto-analitico-completo" title="Link to this heading">#</a></h1>
-<p>En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un “modelo” de estimacion de precios de predios con una <code class="docutils literal notranslate"><span class="pre">API</span> <span class="pre">REST</span></code> utilizando <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>, almacenamiento en <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code> y orquestación con <code class="docutils literal notranslate"><span class="pre">Docker</span></code>. Además, se incluirá una interfaz de usuario desarrollada en <code class="docutils literal notranslate"><span class="pre">Streamlit</span></code>. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna y sentar las bases para una estructura modular que permita futuras extensiones.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="clase-5-endpoints-modelo-de-regresion-multiple">
+<h1><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em><a class="headerlink" href="#clase-5-endpoints-modelo-de-regresion-multiple" title="Link to this heading">#</a></h1>
+<p>En la sesión de hoy, aprovecharemos que ya contamos con un template base de <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code> para centrarnos en la construcción e integración de nuestro modelo. El flujo de la clase se divide en dos etapas principales: primero, la construcción del modelo, y segundo, la implementación del servicio con sus endpoints correspondientes.</p>
+<hr class="docutils" />
 <section id="objetivos-de-la-sesion">
 <h2>Objetivos de la Sesión<a class="headerlink" href="#objetivos-de-la-sesion" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Implementar un “modelo” de estimacion de precios de predios.</p></li>
-<li><p>Crear una API REST con <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code> para exponer el modelo como servicio.</p></li>
-<li><p>Configurar y utilizar <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code> para almacenamiento persistente de datos y predicciones.</p></li>
-<li><p>Desplegar la solución completa con <code class="docutils literal notranslate"><span class="pre">Docker</span></code>, facilitando la integración de todos los componentes.</p></li>
-<li><p>Desarrollar una interfaz interactiva con <code class="docutils literal notranslate"><span class="pre">Streamlit</span></code> que permita la creación de usuarios y la realización de predicciones.</p></li>
-</ul>
-</section>
-<section id="componentes-del-proyecto">
-<h2>Componentes del Proyecto<a class="headerlink" href="#componentes-del-proyecto" title="Link to this heading">#</a></h2>
-<section id="modelo-analitico">
-<h3>1. “Modelo” Analítico.<a class="headerlink" href="#modelo-analitico" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Actualmente implementado como un modelo de “juguete” que devuelve números aleatorios.</p></li>
-</ul>
-</section>
-<section id="api-con-fastapi">
-<h3>2. API con FastAPI<a class="headerlink" href="#api-con-fastapi" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Diseño de endpoints para predicciones y usuarios.</p></li>
-<li><p>Manejo modular de la lógica a través de servicios y routers.</p></li>
-<li><p>Validación de datos con <code class="docutils literal notranslate"><span class="pre">Pydantic</span></code> y documentación automática con Swagger UI.</p></li>
-</ul>
-</section>
-<section id="base-de-datos-postgresql">
-<h3>3. Base de Datos PostgreSQL<a class="headerlink" href="#base-de-datos-postgresql" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Esquema básico para almacenar datos crudos y registros de predicción.</p></li>
-<li><p>Conexión mediante <code class="docutils literal notranslate"><span class="pre">sqlmodel</span></code> y <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code>  para gestionar la persistencia.</p></li>
-</ul>
-</section>
-<section id="orquestacion-con-docker">
-<h3>4. Orquestación con Docker<a class="headerlink" href="#orquestacion-con-docker" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> para cada componente.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> para la integración de servicios (<code class="docutils literal notranslate"><span class="pre">API</span></code>, <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code>, <code class="docutils literal notranslate"><span class="pre">Streamlit</span></code>).</p></li>
-<li><p>Configuración de variables de entorno y volúmenes para asegurar la correcta comunicación entre contenedores.</p></li>
-</ul>
-</section>
-<section id="interfaz-de-usuario-con-streamlit">
-<h3>5. Interfaz de Usuario con Streamlit<a class="headerlink" href="#interfaz-de-usuario-con-streamlit" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>App interactiva para crear usuarios y realizar predicciones.</p></li>
-<li><p>Comunicación con la API para demostrar la integración end-to-end.</p></li>
-</ul>
+<section id="construccion-del-modelo">
+<h3>1. Construcción del Modelo<a class="headerlink" href="#construccion-del-modelo" title="Link to this heading">#</a></h3>
+<p>Vamos a construir un modelo de regresión lineal múltiple utilizando <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, donde el énfasis no recae en la complejidad del algoritmo, sino en comprender cómo integrar un modelo analítico en un servicio completo.</p>
+<ol class="arabic simple">
+<li><p><strong>Introducción a GeoPandas:</strong><br />
+Se explicará el uso de la librería <code class="docutils literal notranslate"><span class="pre">GeoPandas</span></code> para la manipulación de información geográfica. Esta herramienta puede enriquecer el análisis de datos al permitir trabajar con datos espaciales, facilitando operaciones básicas como la carga y transformación de archivos geográficos.</p></li>
+<li><p><strong>Entrenamiento del Modelo con sklearn:</strong><br />
+Se utilizará la libreria <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> para entrenar un modelo de regresión lineal múltiple. Durante este proceso se hará énfasis en la selección de variables predictoras y en el entrenamiento básico, manteniendo el foco en la integración más que en la optimización del algoritmo.</p></li>
+<li><p><strong>Exportación del Modelo:</strong><br />
+Una vez entrenado, el modelo se exportará a un archivo con formato <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>. Esta exportación es clave para facilitar el despliegue del modelo en otros entornos o servicios, permitiendo su reutilización sin necesidad de reentrenarlo.</p></li>
+</ol>
 </section>
 <hr class="docutils" />
-<section id="preparacion-del-entorno-y-pruebas-35-min">
-<h3>Preparación del entorno y pruebas (35 min)<a class="headerlink" href="#preparacion-del-entorno-y-pruebas-35-min" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Clonar el repositorio base.</p></li>
-<li><p>Verificar el funcionamiento inicial del sistema, incluyendo la construccion y prueba de la imagen Docker.</p></li>
-<li><p>Explorar la estructura de carpetas y archivos para familiarizarnos con la organización del proyecto.</p></li>
-</ul>
-</section>
-<section id="interaccion-con-la-api-60-min">
-<h3>Interacción con la API (60 min)<a class="headerlink" href="#interaccion-con-la-api-60-min" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Revision del codigo y su funcionamiento e implementacion, centrandonos en <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code> y <code class="docutils literal notranslate"><span class="pre">sqlmodel</span></code>, comprendiendo cada componente implementado.</p></li>
-<li><p>Revisión de los endpoints implementados en <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>.</p></li>
-<li><p>Levantar los contenedores con <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code>.</p></li>
-<li><p>Comprobación de la correcta inicialización de <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code>, <code class="docutils literal notranslate"><span class="pre">API</span></code> y <code class="docutils literal notranslate"><span class="pre">Streamlit</span></code></p></li>
-<li><p>Pruebas mediante Swagger UI y herramientas como <code class="docutils literal notranslate"><span class="pre">curl</span></code>.</p></li>
-</ul>
-</section>
-<section id="persistencia-con-postgresql-20-min">
-<h3>Persistencia con PostgreSQL (20 min)<a class="headerlink" href="#persistencia-con-postgresql-20-min" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Exploración del esquema de la base de datos.</p></li>
-<li><p>Consultas y gestión de registros usando <code class="docutils literal notranslate"><span class="pre">pandas</span></code> y <code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span></code>.</p></li>
-</ul>
+<section id="implementacion-del-servicio-con-fastapi">
+<h3>2. Implementación del Servicio con FastAPI<a class="headerlink" href="#implementacion-del-servicio-con-fastapi" title="Link to this heading">#</a></h3>
+<p>Integraremos el modelo exportado en el servicio utilizando el template de <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>, definiendo los endpoints que permitirán la interacción con el modelo y el manejo de la información geográfica.</p>
+<ol class="arabic simple">
+<li><p><strong>Integración del Modelo en FastAPI:</strong><br />
+Se cargará el modelo previamente exportado en el template existente, asegurando que esté listo para responder a las peticiones de predicción.</p></li>
+<li><p><strong>Desarrollo de Endpoints de Predicción:</strong></p></li>
+</ol>
+<p>Permite enviar datos y obtener la predicción generada por el modelo.</p>
 </section>
 </section>
+<hr class="docutils" />
 <section id="reflexion-final">
 <h2>Reflexión Final<a class="headerlink" href="#reflexion-final" title="Link to this heading">#</a></h2>
-<p>Esta clase no solo muestra la implementación técnica de un proyecto analítico completo, sino que también sienta las bases para una estructura modular y escalable. La integración de estas piezas (<code class="docutils literal notranslate"><span class="pre">&quot;modelo&quot;</span> <span class="pre">analítico</span></code>, <code class="docutils literal notranslate"><span class="pre">API</span></code>, <code class="docutils literal notranslate"><span class="pre">database</span></code>, <code class="docutils literal notranslate"><span class="pre">Docker</span></code> y <code class="docutils literal notranslate"><span class="pre">UI</span></code>) permite desarrollar soluciones robustas que transforman datos en decisiones informadas.</p>
+<p>El enfoque de la clase está en entender que, aunque el modelo de regresión lineal múltiple es una parte central del análisis, el verdadero valor de esta sesion reside en la <strong>construcción de un servicio completo</strong> que integra:</p>
+<ol class="arabic simple">
+<li><p><strong>Construcción del Modelo:</strong></p>
+<ul class="simple">
+<li><p>Entrenamiento básico del modelo con <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p></li>
+<li><p>Exportación del modelo a formato <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Implementación del Servicio:</strong></p>
+<ul class="simple">
+<li><p>Integración del modelo en el template de <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>.</p></li>
+<li><p>Creación de endpoints funcionales para interactuar con el modelo.</p></li>
+</ul>
+</li>
+</ol>
+<p>Este flujo permite comprender la importancia de una arquitectura de servicio sólida y escalable, donde la integración de componentes diversos (modelo analítico, y servicios web) es lo que se busca resaltar del sistema completo.</p>
+</section>
 <hr class="docutils" />
 <section id="recursos-y-referencias">
-<h3>Recursos y Referencias<a class="headerlink" href="#recursos-y-referencias" title="Link to this heading">#</a></h3>
+<h2>Recursos y referencias<a class="headerlink" href="#recursos-y-referencias" title="Link to this heading">#</a></h2>
 <ul class="simple">
+<li><p><strong>scikit-learn:</strong> <a class="reference external" href="https://scikit-learn.org/stable/">Documentación de scikit-learn</a></p></li>
+<li><p><strong>GeoPandas:</strong> <a class="reference external" href="https://geopandas.org/">Documentación de GeoPandas</a></p></li>
 <li><p><strong>FastAPI:</strong> <a class="reference external" href="https://fastapi.tiangolo.com/">Documentación de FastAPI</a></p></li>
-<li><p><strong>PostgreSQL:</strong> <a class="reference external" href="https://www.postgresql.org/docs/">Documentación de PostgreSQL</a></p></li>
-<li><p><strong>psycopg2:</strong> <a class="reference external" href="https://www.psycopg.org/docs/">Documentación de psycopg2</a></p></li>
-<li><p><strong>Docker:</strong> <a class="reference external" href="https://www.docker.com/">Sitio oficial de Docker</a></p></li>
-<li><p><strong>Docker Compose:</strong> <a class="reference external" href="https://docs.docker.com/compose/gettingstarted/">Guía de Docker Compose</a></p></li>
-<li><p><strong>Streamlit:</strong>  <a class="reference external" href="https://docs.streamlit.io/">Documentación de Streamlit</a></p></li>
-<li><p><strong>SQLAlchemy:</strong> <a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/tutorial.html">Tutorial de SQLAlchemy con PostgreSQL</a></p></li>
-<li><p><strong>SQLModel:</strong> <a class="reference external" href="https://sqlmodel.tiangolo.com/">Documentación de SQLModel</a></p></li>
-<li><p><strong>Código completo en GitHub:</strong>  <a class="reference external" href="https://github.com/lacamposm/mini-proyecto-oic">GitHub - mini-proyecto-oic</a></p></li>
-</ul>
-</section>
-</section>
-<section id="para-llevar-mas-alla">
-<h2>Para llevar más allá<a class="headerlink" href="#para-llevar-mas-alla" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Piensa en implementar otros endpoints.</p></li>
+<li><p><strong>Pandas:</strong>  <a class="reference external" href="https://pandas.pydata.org/docs/">Documentación de Pandas</a></p></li>
 </ul>
 </section>
 </section>
@@ -565,22 +511,13 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="clase3.html"
+       href="clase4.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></p>
+        <p class="prev-next-title"><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em></p>
       </div>
-    </a>
-    <a class="right-next"
-       href="clase5.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em></p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -598,23 +535,13 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-sesion">Objetivos de la Sesión</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#componentes-del-proyecto">Componentes del Proyecto</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-analitico">1. “Modelo” Analítico.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#api-con-fastapi">2. API con FastAPI</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-de-datos-postgresql">3. Base de Datos PostgreSQL</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orquestacion-con-docker">4. Orquestación con Docker</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaz-de-usuario-con-streamlit">5. Interfaz de Usuario con Streamlit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacion-del-entorno-y-pruebas-35-min">Preparación del entorno y pruebas (35 min)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interaccion-con-la-api-60-min">Interacción con la API (60 min)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-con-postgresql-20-min">Persistencia con PostgreSQL (20 min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-de-la-sesion">Objetivos de la Sesión</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-modelo">1. Construcción del Modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-del-servicio-con-fastapi">2. Implementación del Servicio con FastAPI</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión Final</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-y-referencias">Recursos y Referencias</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-llevar-mas-alla">Para llevar más allá</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-final">Reflexión Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-y-referencias">Recursos y referencias</a></li>
 </ul>
   </nav></div>
 

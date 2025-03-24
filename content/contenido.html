@@ -187,7 +187,8 @@
 <li class="toctree-l1"><a class="reference internal" href="clase2.html"><em><strong>🐳Clase 2: Docker y Python🐳</strong></em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_docker_images.html"><em><strong>Construyendo y corriendo imagenes Docker en local.</strong></em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="clase3.html"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></a></li>
-<li class="toctree-l1"><a class="reference internal" href="clase4.html"><em><strong>📈Clase 4: Modelo Analítico con Regresión Lineal📈</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase4.html"><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase5.html"><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em></a></li>
 </ul>
 
     </div>
@@ -479,25 +480,25 @@ document.write(`
 <hr class="docutils" />
 <section id="clase-4-viernes-21-de-marzo-de-2025">
 <h2>📌 <strong>Clase 4 – Viernes, 21 de marzo de 2025</strong><a class="headerlink" href="#clase-4-viernes-21-de-marzo-de-2025" title="Link to this heading">#</a></h2>
-<p><strong>Modelo Analítico con Regresión</strong></p>
-<p>En esta clase profundizaremos en la creación y validación de modelos analíticos utilizando técnicas de regresión, apoyados en el dataset real “House Prices” de Kaggle. Aprenderemos a preparar los datos correctamente, construir modelos robustos, y exportar resultados en formatos listos para producción.</p>
+<p><strong>Implementación de un Proyecto Analítico Completo</strong></p>
+<p>En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un modelo de estimación de precios de predios con una API REST utilizando <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>, almacenamiento en <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code> y orquestación con <code class="docutils literal notranslate"><span class="pre">Docker</span></code>. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna.</p>
 <ul class="simple">
-<li><p>Introducción a modelos analíticos utilizando regresión.</p></li>
-<li><p>Exploración del dataset “House Prices” (Kaggle), preprocesamiento y modelado.</p></li>
-<li><p>Exportación de modelos entrenados (formatos consumibles como <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>).</p></li>
-<li><p>Recomendaciones sobre documentación asociada al modelo.</p></li>
+<li><p>Implementación dummy de estimación de precios de predios.</p></li>
+<li><p>Creación de una API REST con <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code> para exponer el modelo como servicio.</p></li>
+<li><p>Configuración de <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code> para almacenamiento persistente de datos y predicciones.</p></li>
+<li><p>Despliegue de la solución completa con <code class="docutils literal notranslate"><span class="pre">Docker</span></code> y <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code>.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
 <section id="clase-5-martes-25-de-marzo-de-2025">
 <h2>📌 <strong>Clase 5 – Martes, 25 de marzo de 2025</strong><a class="headerlink" href="#clase-5-martes-25-de-marzo-de-2025" title="Link to this heading">#</a></h2>
-<p><strong>Creación de APIs con FastAPI</strong></p>
-<p>Nos centraremos en cómo exponer modelos analíticos como servicios web utilizando FastAPI, una herramienta potente y moderna para construir APIs rápidas y fáciles de consumir. Aprenderemos conceptos clave sobre APIs REST, cómo implementar rutas y operaciones comunes, y buenas prácticas de desarrollo.</p>
+<p><strong>Modelo Analítico con Regresión</strong></p>
+<p>En esta clase profundizaremos en la construccion de nuestro servicio completo con <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code></p>
 <ul class="simple">
-<li><p>Introducción al desarrollo de servicios <code class="docutils literal notranslate"><span class="pre">REST</span></code> con <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>.</p></li>
-<li><p>Implementación de métodos básicos: <code class="docutils literal notranslate"><span class="pre">GET</span></code>, <code class="docutils literal notranslate"><span class="pre">POST</span></code>.</p></li>
-<li><p>Validación y documentación interactiva con <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>.</p></li>
-<li><p>Buenas prácticas en el desarrollo de <code class="docutils literal notranslate"><span class="pre">APIs</span></code>.</p></li>
+<li><p>Implementando un modelo de regresion lineal multiple con <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> sobre la informacion en la tabla <a class="reference internal" href="#"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">raw_data</span></code></span></a> de nuestra base de datos <code class="docutils literal notranslate"><span class="pre">Postgres</span></code>.</p></li>
+<li><p>Introduccion a la libreria <code class="docutils literal notranslate"><span class="pre">GeoPandas</span></code> como facilitador para la manipulacion basica de informacion geografica.</p></li>
+<li><p>Exportaremos nuestro modelo a un formato facilmente consumible como el un <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>.</p></li>
+<li><p>Implementacion de endpoint de prediccion con nuestro verdadero modelo.</p></li>
 </ul>
 </section>
 <hr class="docutils" />

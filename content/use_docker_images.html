@@ -187,7 +187,8 @@
 <li class="toctree-l1"><a class="reference internal" href="clase2.html"><em><strong>🐳Clase 2: Docker y Python🐳</strong></em></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><em><strong>Construyendo y corriendo imagenes Docker en local.</strong></em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="clase3.html"><em><strong>📘Clase 3: OOP y Documentación Profesional📘</strong></em></a></li>
-<li class="toctree-l1"><a class="reference internal" href="clase4.html"><em><strong>📈Clase 4: Modelo Analítico con Regresión Lineal📈</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase4.html"><em><strong>🛠️ Clase 4: Implementación de un Proyecto Analítico Completo</strong></em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="clase5.html"><em><strong>🛠️Clase 5: Endpoints - Modelo de Regresión Multiple</strong></em></a></li>
 </ul>
 
     </div>
@@ -408,7 +409,7 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-pythonconda">Dockerfile.PythonConda</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-condacode">Dockerfile.CondaCode</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Ejecutar y Crear el Contenedor</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Linux/MacOS</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Windows</a></li>
@@ -416,7 +417,7 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-pythoncode">Dockerfile.PythonCode</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-poetrycode">Dockerfile.PoetryCode</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Ejecutar y Crear el Contenedor</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Linux/MacOS</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Windows</a></li>
@@ -489,14 +490,14 @@ Esta imagen se utiliza cuando se requiere un entorno base de Python sin dependen
 </section>
 </section>
 </section>
-<section id="dockerfile-pythonconda">
-<h2>Dockerfile.PythonConda<a class="headerlink" href="#dockerfile-pythonconda" title="Link to this heading">#</a></h2>
-<p>Imagen completa basada en Miniconda con JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.</p>
-<p>Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye JupyterLab para notebooks y VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># 1. Imagen base utilizando continuumio/miniconda3, que ya incluye Conda preinstalado</span>
+<section id="dockerfile-condacode">
+<h2>Dockerfile.CondaCode<a class="headerlink" href="#dockerfile-condacode" title="Link to this heading">#</a></h2>
+<p>Imagen completa basada en Miniconda con VS Code Server, pensada para entornos de desarrollo avanzados.</p>
+<p>Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Imagen base utilizando continuumio/miniconda3, con Conda preinstalado</span>
 <span class="k">FROM</span><span class="w"> </span><span class="s">continuumio/miniconda3</span>
 
-<span class="c"># 2. Instalar utilidades necesarias y Node.js</span>
+<span class="c"># Instalar utilidades necesarias y Node.js</span>
 <span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>bash<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
@@ -509,42 +510,32 @@ Esta imagen se utiliza cuando se requiere un entorno base de Python sin dependen
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://deb.nodesource.com/setup_20.x<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span>nodejs<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>clean<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://code-server.dev/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 
-<span class="c"># 3. Verificar Node.js y npm</span>
+<span class="c"># Verificar Node.js y npm</span>
 <span class="k">RUN</span><span class="w"> </span>node<span class="w"> </span>-v<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>-v
 
-<span class="c"># 4. Actualizar conda y configurar canales</span>
-<span class="k">RUN</span><span class="w"> </span>conda<span class="w"> </span>update<span class="w"> </span>-n<span class="w"> </span>base<span class="w"> </span>-c<span class="w"> </span>defaults<span class="w"> </span>conda<span class="w"> </span>-y<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>conda-forge
+<span class="c"># Instalar extensiones de VS Code (code-server) para Python y Jupyter, junto con sus helpers y Git Graph</span>
+<span class="k">RUN</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-python.python<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter-keymap<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter-renderers<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>mhutchie.git-graph
 
-<span class="c"># 5. Instalar paquetes Python esenciales con conda.</span>
-<span class="k">RUN</span><span class="w"> </span>conda<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>ipykernel<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>jupyter_client<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>notebook<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>jupyter_core<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>nbformat<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>clean<span class="w"> </span>-afy
-
-<span class="c"># 6. Configuración de git</span>
-<span class="k">RUN</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>core.sshCommand<span class="w"> </span><span class="s2">&quot;ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span><span class="s2">&quot;*&quot;</span>
-
-<span class="c"># 7. Instalar VS Code-Server</span>
-<span class="k">RUN</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://code-server.dev/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-
-<span class="c"># 8. Configurar tema oscuro por defecto en VS Code</span>
+<span class="c"># Configurar tema oscuro por defecto en VS Code</span>
 <span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/share/code-server/User<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;workbench.colorTheme&quot;: &quot;Default Dark+&quot;, &quot;jupyter.alwaysTrustNotebooks&quot;: true}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/code-server/User/settings.json
 
-<span class="c"># 9. Exponer puertos (8080 para code-server y 8888 para el servidor de Jupyter)</span>
-<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8888 8080</span>
+<span class="c"># Configuración de git</span>
+<span class="k">RUN</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>core.sshCommand<span class="w"> </span><span class="s2">&quot;ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span><span class="s2">&quot;*&quot;</span>
 
-<span class="c"># 10. CMD para iniciar notebook y Code-Server</span>
+<span class="c"># Exponer puerto 8080 para code-server</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+
+<span class="c"># CMD para iniciar Vs-Code-Server</span>
 <span class="k">CMD</span><span class="w"> </span><span class="o">[</span><span class="s2">&quot;/bin/bash&quot;</span>,<span class="w"> </span><span class="s2">&quot;-c&quot;</span>,<span class="w"> </span><span class="s2">&quot;source /etc/profile &amp;&amp; source ~/.bashrc &amp;&amp; \</span>
-<span class="s2">    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \</span>
-<span class="s2">    --NotebookApp.token=&#39;&#39; --NotebookApp.password=&#39;&#39; --NotebookApp.disable_check_xsrf=True &amp; \</span>
 <span class="s2">    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry &amp; \</span>
 <span class="s2">    exec bash&quot;</span><span class="o">]</span>
 </pre></div>
@@ -559,7 +550,7 @@ Configura Git para ignorar verificaciones de hosts SSH y marcar todos los direct
 <li><p><strong>Instalar Code-Server (VS Code Server)</strong><br />
 Instala VS Code Server para desarrollo en navegador.</p></li>
 <li><p><strong>Exponer puertos y definir CMD</strong><br />
-Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.</p></li>
+Expone el puerto 8080 (VS Code) e inicia el servicio.</p></li>
 </ol>
 <section id="id1">
 <h3>Ejecutar y Crear el Contenedor<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
@@ -568,22 +559,18 @@ Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.</
 <h4>Linux/MacOS<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
 <ol class="arabic">
 <li><p>Construir la imagen de Docker:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>python-conda-notebooks-code-server<span class="w"> </span>-f<span class="w"> </span>./curso-introduccion/docker-files/Dockerfile.PythonConda<span class="w"> </span>.
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>conda-vscode<span class="w"> </span>-f<span class="w"> </span>./curso-introduccion/docker-files/Dockerfile.CondaCode<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
 <li><p>Ejecutar el contenedor montando la carpeta actual como volumen:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8888</span>:8888<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>-w<span class="w"> </span>/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>python-conda-notebooks-code-server:latest
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>-w<span class="w"> </span>/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>conda-vscode:latest
 </pre></div>
 </div>
 </li>
 <li><p>Visita VScode para desarrollar o Jupyterlab</p>
 <p>Luego visita para <code class="docutils literal notranslate"><span class="pre">VScode</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://127.0.0.1:8080/?folder<span class="o">=</span>/desarrollo-analitico-oic
-</pre></div>
-</div>
-<p>Y para <code class="docutils literal notranslate"><span class="pre">Notebooks</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://127.0.0.1:8888/tree?
 </pre></div>
 </div>
 </li>
@@ -593,17 +580,16 @@ Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.</
 <h4>Windows<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
 <ol class="arabic">
 <li><p>Construir la imagen de Docker:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="n">-t</span> <span class="n">python-conda-notebooks-code-server</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">curso-introduccion</span><span class="p">\</span><span class="n">docker-files</span><span class="p">\</span><span class="n">Dockerfile</span><span class="p">.</span><span class="n">PythonConda</span> <span class="p">.</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="n">-t</span> <span class="n">conda-vscode</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">curso-introduccion</span><span class="p">\</span><span class="n">docker-files</span><span class="p">\</span><span class="n">Dockerfile</span><span class="p">.</span><span class="n">CondaCode</span> <span class="p">.</span>
 </pre></div>
 </div>
 </li>
 <li><p>Ejecutar el contenedor montando la carpeta actual como volumen:</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-rm</span> <span class="p">`</span>
-<span class="n">-p</span> <span class="n">8888</span><span class="p">:</span><span class="n">8888</span> <span class="p">`</span>
 <span class="n">-p</span> <span class="n">8080</span><span class="p">:</span><span class="n">8080</span> <span class="p">`</span>
 <span class="n">-v</span> <span class="s2">&quot;${PWD}:/</span><span class="p">$(</span><span class="nb">Split-Path</span> <span class="n">-Leaf</span> <span class="nv">$PWD</span><span class="p">)</span><span class="s2">&quot;</span> <span class="p">`</span>
 <span class="n">-w</span> <span class="s2">&quot;/</span><span class="p">$(</span><span class="nb">Split-Path</span> <span class="n">-Leaf</span> <span class="nv">$PWD</span><span class="p">)</span><span class="s2">&quot;</span> <span class="p">`</span>
-<span class="n">python-conda-notebooks-code-server</span><span class="p">:</span><span class="n">latest</span>
+<span class="n">conda-vscode</span><span class="p">:</span><span class="n">latest</span>
 </pre></div>
 </div>
 </li>
@@ -612,22 +598,18 @@ Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.</
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">://</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">:</span><span class="n">8080</span><span class="p">/</span><span class="k">?</span><span class="n">folder</span><span class="p">=/</span><span class="n">desarrollo-analitico-oic</span>
 </pre></div>
 </div>
-<p>Y para <code class="docutils literal notranslate"><span class="pre">Notebooks</span></code>:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">://</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">:</span><span class="n">8888</span><span class="p">/</span><span class="n">tree</span><span class="p">?</span>
-</pre></div>
-</div>
 </li>
 </ol>
 </section>
 </section>
 </section>
-<section id="dockerfile-pythoncode">
-<h2>Dockerfile.PythonCode<a class="headerlink" href="#dockerfile-pythoncode" title="Link to this heading">#</a></h2>
+<section id="dockerfile-poetrycode">
+<h2>Dockerfile.PoetryCode<a class="headerlink" href="#dockerfile-poetrycode" title="Link to this heading">#</a></h2>
 <p>Imagen ligera con Python 3.12 y VS Code Server, enfocada en proporcionar un entorno de desarrollo remoto a través del navegador.</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># 1. Imagen base de Python 3.12</span>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Imagen base de Python 3.12</span>
 <span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12</span>
 
-<span class="c"># 2. Instalar utilidades necesarias y Node.js</span>
+<span class="c"># Instalar utilidades necesarias y Node.js</span>
 <span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>bash<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
@@ -635,33 +617,43 @@ Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.</
 <span class="w">    </span>wget<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>sudo<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>ca-certificates<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>libnss3<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>make<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>libnss3<span class="w"> </span><span class="se">\ </span><span class="w">   </span>
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://deb.nodesource.com/setup_20.x<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span>nodejs<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>clean<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://code-server.dev/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 
-<span class="c"># 3. Instalar paquetes Python necesarios para notebooks en VS-Code</span>
+<span class="c"># Verificar Node.js y npm</span>
+<span class="k">RUN</span><span class="w"> </span>node<span class="w"> </span>-v<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>-v
+
+<span class="c"># Instalar paquetes Python necesarios para notebooks en VS-Code</span>
 <span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>poetry<span class="w"> </span>ipykernel<span class="w"> </span>jupyter_client<span class="w"> </span>ipython<span class="w"> </span>notebook<span class="w"> </span>jupyter_core<span class="w"> </span>nbformat
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>poetry
 
-<span class="c"># 4. Instalar Code-Server (VS Code Server)</span>
-<span class="k">RUN</span><span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://code-server.dev/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<span class="c"># Instalar extensiones de VS Code (code-server) para Python, Jupyter y Git Graph</span>
+<span class="k">RUN</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-python.python<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter-keymap<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter-renderers<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>code-server<span class="w"> </span>--install-extension<span class="w"> </span>mhutchie.git-graph
 
-<span class="c"># 5. Configurar tema oscuro por defecto en VS Code</span>
+<span class="c"># Configurar tema oscuro por defecto en VS Code</span>
 <span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/share/code-server/User<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;workbench.colorTheme&quot;: &quot;Default Dark+&quot;, &quot;jupyter.alwaysTrustNotebooks&quot;: true}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/code-server/User/settings.json
 
-<span class="c"># 6. Exponer puertos (8080 para code-server y un puerto para el servidor de Jupyter)</span>
-<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080 8888</span>
+<span class="c"># Configuración de git</span>
+<span class="k">RUN</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>core.sshCommand<span class="w"> </span><span class="s2">&quot;ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--system<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span><span class="s2">&quot;*&quot;</span>
+
+<span class="c"># Exponer puerto 8080 para code-server.</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
 
 <span class="c"># 7. CMD para iniciar Code-Server y un servidor de notebooks en segundo plano</span>
 <span class="k">CMD</span><span class="w"> </span><span class="o">[</span><span class="s2">&quot;/bin/bash&quot;</span>,<span class="w"> </span><span class="s2">&quot;-c&quot;</span>,<span class="w"> </span><span class="s2">&quot;source /etc/profile &amp;&amp; source ~/.bashrc &amp;&amp; \</span>
-<span class="s2">    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \</span>
-<span class="s2">    --NotebookApp.token=&#39;&#39; --NotebookApp.password=&#39;&#39; --NotebookApp.disable_check_xsrf=True &amp; \</span>
-<span class="s2">    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry &amp; \</span>
-<span class="s2">    exec bash&quot;</span><span class="o">]</span>
+<span class="s2">     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry &amp; \</span>
+<span class="s2">     exec bash&quot;</span><span class="o">]</span>
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -681,12 +673,12 @@ Inicia VS Code Server en el puerto 8080 sin autenticación.</p></li>
 <h4>Linux/MacOS<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
 <ol class="arabic">
 <li><p>Construir la imagen de Docker:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>python3.12-notebooks-code-server<span class="w"> </span>-f<span class="w"> </span>./curso-introduccion/docker-files/Dockerfile.PythonCode<span class="w"> </span>.
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>python3.12-poetry-vscode<span class="w"> </span>-f<span class="w"> </span>./curso-introduccion/docker-files/Dockerfile.PoetryCode<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
 <li><p>Ejecutar el contenedor montando la carpeta actual como volumen:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>-w<span class="w"> </span>/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>python3.12-notebooks-code-server
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>-w<span class="w"> </span>/<span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>python3.12-poetry-vscode
 </pre></div>
 </div>
 </li>
@@ -701,7 +693,7 @@ Inicia VS Code Server en el puerto 8080 sin autenticación.</p></li>
 <h4>Windows<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
 <ol class="arabic">
 <li><p>Construir la imagen de Docker:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="n">-t</span> <span class="n">python3</span><span class="p">.</span><span class="n">12-notebooks-code-server</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">curso-introduccion</span><span class="p">\</span><span class="n">docker-files</span><span class="p">\</span><span class="n">Dockerfile</span><span class="p">.</span><span class="n">PythonCode</span> <span class="p">.</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="n">-t</span> <span class="n">python3</span><span class="p">.</span><span class="n">12-poetry-vscode</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">curso-introduccion</span><span class="p">\</span><span class="n">docker-files</span><span class="p">\</span><span class="n">Dockerfile</span><span class="p">.</span><span class="n">PoetryCode</span> <span class="p">.</span>
 </pre></div>
 </div>
 </li>
@@ -710,7 +702,7 @@ Inicia VS Code Server en el puerto 8080 sin autenticación.</p></li>
 <span class="n">-p</span> <span class="n">8080</span><span class="p">:</span><span class="n">8080</span> <span class="p">`</span>
 <span class="n">-v</span> <span class="s2">&quot;${PWD}:/</span><span class="p">$(</span><span class="nb">Split-Path</span> <span class="n">-Leaf</span> <span class="nv">$PWD</span><span class="p">)</span><span class="s2">&quot;</span> <span class="p">`</span>
 <span class="n">-w</span> <span class="s2">&quot;/</span><span class="p">$(</span><span class="nb">Split-Path</span> <span class="n">-Leaf</span> <span class="nv">$PWD</span><span class="p">)</span><span class="s2">&quot;</span> <span class="p">`</span>
-<span class="n">python3</span><span class="p">.</span><span class="n">12-notebooks-code-server</span>
+<span class="n">python3</span><span class="p">.</span><span class="n">12-poetry-vscode</span>
 </pre></div>
 </div>
 </li>
@@ -739,12 +731,12 @@ Para subir una imagen a tu repositorio en Docker Hub, primero debes etiquetarla 
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>python3.12<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12
 </pre></div>
 </div>
-<p>Para PythonConda:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>python-conda-notebooks-code-server<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+<p>Para CondaCode:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>conda-vscode<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:conda-vscode
 </pre></div>
 </div>
-<p>Para PythonCode:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>python3.12-notebooks-code-server<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
+<p>Para Poetry:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>python3.12-poetry-vscode<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12-poetry-vscode
 </pre></div>
 </div>
 </li>
@@ -754,26 +746,26 @@ Una vez etiquetadas, puedes subirlas a Docker Hub:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>push<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12
 </pre></div>
 </div>
-<p>Para PythonConda:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>push<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+<p>Para CondaCode:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>push<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:conda-vscode
 </pre></div>
 </div>
-<p>Para PythonCode:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>push<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
+<p>Para Poetry:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>push<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python3.12-poetry-vscode
 </pre></div>
 </div>
 </li>
 <li><p>Descargar y utilizar imágenes desde Docker Hub
 Para descargar y usar una imagen publicada:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:conda-vscode
 </pre></div>
 </div>
 <p>Para Linux:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8888</span>:8888<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">:/workspace&quot;</span><span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;/workspace&quot;</span><span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8888</span>:8888<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">:/workspace&quot;</span><span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;/workspace&quot;</span><span class="w"> </span>tu-usuario-dockerhub/nombre-asignado:conda-vscode
 </pre></div>
 </div>
 <p>Para Windows:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-p</span> <span class="n">8888</span><span class="p">:</span><span class="n">8888</span> <span class="n">-p</span> <span class="n">8080</span><span class="p">:</span><span class="n">8080</span> <span class="n">-v</span> <span class="s2">&quot;${PWD}:/workspace&quot;</span> <span class="n">-w</span> <span class="s2">&quot;/workspace&quot;</span> <span class="n">tu-usuario-dockerhub</span><span class="p">/</span><span class="n">nombre-asignado</span><span class="p">:</span><span class="n">python-conda-notebooks-code-server</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-p</span> <span class="n">8888</span><span class="p">:</span><span class="n">8888</span> <span class="n">-p</span> <span class="n">8080</span><span class="p">:</span><span class="n">8080</span> <span class="n">-v</span> <span class="s2">&quot;${PWD}:/workspace&quot;</span> <span class="n">-w</span> <span class="s2">&quot;/workspace&quot;</span> <span class="n">tu-usuario-dockerhub</span><span class="p">/</span><span class="n">nombre-asignado</span><span class="p">:</span><span class="n">conda-vscode</span>
 </pre></div>
 </div>
 <p>Asegúrate de reemplazar <code class="docutils literal notranslate"><span class="pre">tu-usuario-dockerhub</span></code> con tu nombre de usuario en Docker Hub si estás subiendo tus propias imágenes.</p>
@@ -870,7 +862,7 @@ Para descargar y usar una imagen publicada:</p>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-pythonconda">Dockerfile.PythonConda</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-condacode">Dockerfile.CondaCode</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Ejecutar y Crear el Contenedor</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Linux/MacOS</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Windows</a></li>
@@ -878,7 +870,7 @@ Para descargar y usar una imagen publicada:</p>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-pythoncode">Dockerfile.PythonCode</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerfile-poetrycode">Dockerfile.PoetryCode</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Ejecutar y Crear el Contenedor</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Linux/MacOS</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Windows</a></li>

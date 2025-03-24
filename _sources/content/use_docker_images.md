@@ -50,17 +50,17 @@ Estando en la carpeta padre del proyecto:
           python3.12:latest
      ```
 
-## Dockerfile.PythonConda
+## Dockerfile.CondaCode
 
-Imagen completa basada en Miniconda con JupyterLab y VS Code Server, pensada para entornos de desarrollo avanzados.
+Imagen completa basada en Miniconda con VS Code Server, pensada para entornos de desarrollo avanzados.
 
-Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye JupyterLab para notebooks y VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.
+Esta imagen utiliza Miniconda como base para una gestión eficiente de paquetes, incluye VS Code Server para brindar una experiencia de desarrollo completa. Ideal para proyectos que requieren múltiples herramientas integradas.
 
 ```dockerfile
-# 1. Imagen base utilizando continuumio/miniconda3, que ya incluye Conda preinstalado
+# Imagen base utilizando continuumio/miniconda3, con Conda preinstalado
 FROM continuumio/miniconda3
 
-# 2. Instalar utilidades necesarias y Node.js
+# Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -73,42 +73,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://code-server.dev/install.sh | bash
 
-# 3. Verificar Node.js y npm
+# Verificar Node.js y npm
 RUN node -v && npm -v
 
-# 4. Actualizar conda y configurar canales
-RUN conda update -n base -c defaults conda -y && \
-    conda config --add channels conda-forge
+# Instalar extensiones de VS Code (code-server) para Python y Jupyter, junto con sus helpers y Git Graph
+RUN code-server --install-extension ms-python.python \
+    && code-server --install-extension ms-toolsai.jupyter \
+    && code-server --install-extension ms-toolsai.jupyter-keymap \
+    && code-server --install-extension ms-toolsai.jupyter-renderers \
+    && code-server --install-extension mhutchie.git-graph
 
-# 5. Instalar paquetes Python esenciales con conda.
-RUN conda install -y \
-    ipykernel \
-    jupyter_client \
-    notebook \
-    jupyter_core \
-    nbformat \
-    && conda clean -afy
-
-# 6. Configuración de git
-RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
-    && git config --system --add safe.directory "*"
-
-# 7. Instalar VS Code-Server
-RUN curl -fsSL https://code-server.dev/install.sh | bash
-
-# 8. Configurar tema oscuro por defecto en VS Code
+# Configurar tema oscuro por defecto en VS Code
 RUN mkdir -p ~/.local/share/code-server/User && \
     echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
 
-# 9. Exponer puertos (8080 para code-server y 8888 para el servidor de Jupyter)
-EXPOSE 8888 8080
+# Configuración de git
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*"
 
-# 10. CMD para iniciar notebook y Code-Server
+# Exponer puerto 8080 para code-server
+EXPOSE 8080
+
+# CMD para iniciar Vs-Code-Server
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
-    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
-    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
     exec bash"]
 ```
@@ -126,7 +116,7 @@ CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
    Instala VS Code Server para desarrollo en navegador.
 
 5. **Exponer puertos y definir CMD**  
-   Expone los puertos 8888 (Notebooks) y 8080 (VS Code) e inicia ambos servicios.
+   Expone el puerto 8080 (VS Code) e inicia el servicio.
 
 ### Ejecutar y Crear el Contenedor
 
@@ -136,12 +126,12 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python-conda-notebooks-code-server -f ./curso-introduccion/docker-files/Dockerfile.PythonConda .
+     docker build -t conda-vscode -f ./curso-introduccion/docker-files/Dockerfile.CondaCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python-conda-notebooks-code-server:latest
+     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") conda-vscode:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
@@ -151,27 +141,20 @@ Estando en la carpeta padre del proyecto:
      http://127.0.0.1:8080/?folder=/desarrollo-analitico-oic
      ```
 
-     Y para `Notebooks`:
-
-     ```bash
-     http://127.0.0.1:8888/tree?
-     ```
-
 #### Windows
 
 1. Construir la imagen de Docker:
      ```powershell
-     docker build -t python-conda-notebooks-code-server -f .\curso-introduccion\docker-files\Dockerfile.PythonConda .
+     docker build -t conda-vscode -f .\curso-introduccion\docker-files\Dockerfile.CondaCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```powershell
      docker run -it --rm `
-     -p 8888:8888 `
      -p 8080:8080 `
      -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
      -w "/$(Split-Path -Leaf $PWD)" `
-     python-conda-notebooks-code-server:latest
+     conda-vscode:latest
      ```
 
 3. Visita VScode para desarrollar o Jupyterlab
@@ -181,21 +164,15 @@ Estando en la carpeta padre del proyecto:
      http://127.0.0.1:8080/?folder=/desarrollo-analitico-oic
      ```
 
-     Y para `Notebooks`:
-
-     ```powershell
-     http://127.0.0.1:8888/tree?
-     ```
-
-## Dockerfile.PythonCode
+## Dockerfile.PoetryCode
 
 Imagen ligera con Python 3.12 y VS Code Server, enfocada en proporcionar un entorno de desarrollo remoto a través del navegador.
 
 ```dockerfile
-# 1. Imagen base de Python 3.12
+# Imagen base de Python 3.12
 FROM python:3.12
 
-# 2. Instalar utilidades necesarias y Node.js
+# Instalar utilidades necesarias y Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -203,33 +180,43 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     sudo \
     ca-certificates \
-    libnss3 \
     make \
+    libnss3 \    
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://code-server.dev/install.sh | bash
 
-# 3. Instalar paquetes Python necesarios para notebooks en VS-Code
+# Verificar Node.js y npm
+RUN node -v && npm -v
+
+# Instalar paquetes Python necesarios para notebooks en VS-Code
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry ipykernel jupyter_client ipython notebook jupyter_core nbformat
+    && pip install --no-cache-dir poetry
 
-# 4. Instalar Code-Server (VS Code Server)
-RUN curl -fsSL https://code-server.dev/install.sh | bash
+# Instalar extensiones de VS Code (code-server) para Python, Jupyter y Git Graph
+RUN code-server --install-extension ms-python.python \
+    && code-server --install-extension ms-toolsai.jupyter \
+    && code-server --install-extension ms-toolsai.jupyter-keymap \
+    && code-server --install-extension ms-toolsai.jupyter-renderers \
+    && code-server --install-extension mhutchie.git-graph
 
-# 5. Configurar tema oscuro por defecto en VS Code
+# Configurar tema oscuro por defecto en VS Code
 RUN mkdir -p ~/.local/share/code-server/User && \
     echo '{"workbench.colorTheme": "Default Dark+", "jupyter.alwaysTrustNotebooks": true}' > ~/.local/share/code-server/User/settings.json
 
-# 6. Exponer puertos (8080 para code-server y un puerto para el servidor de Jupyter)
-EXPOSE 8080 8888
+# Configuración de git
+RUN git config --system core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    && git config --system --add safe.directory "*"
+
+# Exponer puerto 8080 para code-server.
+EXPOSE 8080
 
 # 7. CMD para iniciar Code-Server y un servidor de notebooks en segundo plano
 CMD ["/bin/bash", "-c", "source /etc/profile && source ~/.bashrc && \
-    jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
-    --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True & \
-    code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
-    exec bash"]
+     code-server --bind-addr 0.0.0.0:8080 --auth none --disable-telemetry & \
+     exec bash"]
 ```
 
 1. **Instalar utilidades necesarias**  
@@ -252,12 +239,12 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```sh
-     docker build -t python3.12-notebooks-code-server -f ./curso-introduccion/docker-files/Dockerfile.PythonCode .
+     docker build -t python3.12-poetry-vscode -f ./curso-introduccion/docker-files/Dockerfile.PoetryCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
      ```sh
-     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-notebooks-code-server
+     docker run -it --rm -p 8080:8080 -v "$(pwd)":/$(basename "$(pwd)") -w /$(basename "$(pwd)") python3.12-poetry-vscode
      ```
 
 3. Acceder a VS Code Server:
@@ -269,7 +256,7 @@ Estando en la carpeta padre del proyecto:
 
 1. Construir la imagen de Docker:
      ```powershell
-     docker build -t python3.12-notebooks-code-server -f .\curso-introduccion\docker-files\Dockerfile.PythonCode .
+     docker build -t python3.12-poetry-vscode -f .\curso-introduccion\docker-files\Dockerfile.PoetryCode .
      ```
 
 2. Ejecutar el contenedor montando la carpeta actual como volumen:
@@ -278,7 +265,7 @@ Estando en la carpeta padre del proyecto:
      -p 8080:8080 `
      -v "${PWD}:/$(Split-Path -Leaf $PWD)" `
      -w "/$(Split-Path -Leaf $PWD)" `
-     python3.12-notebooks-code-server
+     python3.12-poetry-vscode
      ```
 
 3. Acceder a VS Code Server:
@@ -303,13 +290,13 @@ Para publicar las imágenes en Docker Hub, sigue estos pasos:
      ```sh
      docker tag python3.12 tu-usuario-dockerhub/nombre-asignado:python3.12
      ```
-     Para PythonConda:
+     Para CondaCode:
      ```sh
-     docker tag python-conda-notebooks-code-server tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+     docker tag conda-vscode tu-usuario-dockerhub/nombre-asignado:conda-vscode
      ```
-     Para PythonCode:
+     Para Poetry:
      ```sh
-     docker tag python3.12-notebooks-code-server tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
+     docker tag python3.12-poetry-vscode tu-usuario-dockerhub/nombre-asignado:python3.12-poetry-vscode
      ```
 3. Subir las imágenes a Docker Hub
    Una vez etiquetadas, puedes subirlas a Docker Hub:
@@ -318,29 +305,29 @@ Para publicar las imágenes en Docker Hub, sigue estos pasos:
      ```sh
      docker push tu-usuario-dockerhub/nombre-asignado:python3.12
      ```
-     Para PythonConda:
+     Para CondaCode:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+     docker push tu-usuario-dockerhub/nombre-asignado:conda-vscode
      ```
-     Para PythonCode:
+     Para Poetry:
      ```sh
-     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-notebooks-code-server
+     docker push tu-usuario-dockerhub/nombre-asignado:python3.12-poetry-vscode
      ```
 4. Descargar y utilizar imágenes desde Docker Hub
    Para descargar y usar una imagen publicada:
 
      ```sh
-     docker pull tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+     docker pull tu-usuario-dockerhub/nombre-asignado:conda-vscode
      ```
 
      Para Linux:
      ```sh
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "$(pwd):/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:conda-vscode
      ```
 
      Para Windows:
      ```powershell
-     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:python-conda-notebooks-code-server
+     docker run -it --rm -p 8888:8888 -p 8080:8080 -v "${PWD}:/workspace" -w "/workspace" tu-usuario-dockerhub/nombre-asignado:conda-vscode
      ```
 
      Asegúrate de reemplazar `tu-usuario-dockerhub` con tu nombre de usuario en Docker Hub si estás subiendo tus propias imágenes.

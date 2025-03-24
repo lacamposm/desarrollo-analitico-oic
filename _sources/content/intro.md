@@ -8,11 +8,12 @@ Este programa ha sido diseñado para proporcionarte una base sólida en el desar
 - **Github:** [https://github.com/lacamposm]
 ---
 
-### 🎯 **Objetivos del Curso**  
+### 🎯 **Objetivos del Curso** 
+
 ✅ Comprender y aplicar herramientas clave para el desarrollo analítico.  
 ✅ Aprender **Git/GitHub/GitLab** para el control de versiones y colaboración en proyectos.  
 ✅ Crear entornos de trabajo con **Python, Conda y Docker**.  
-✅ Desarrollar un modelo analítico.
+✅ Desarrollar un modelo analítico.  
 ✅ Implementar y desplegar servicios con **FastAPI y Streamlit**.  
 
 📌 **Este curso es práctico y progresivo**, asegurando que cada sesión refuerce el aprendizaje de la anterior.
@@ -58,6 +59,7 @@ También puedes explorar el repositorio en GitHub:
 ### 📧 **Contacto y Consultas**  
 Si tienes dudas o sugerencias, no dudes en ponerte en contacto.  
 📩 **Correo:** `luisandres.campos@igac.gov.co`  
+📩 **Correo:** `lacamposm@unal.edu.co` 
 
 🚀 **¡Esperamos que disfrutes el curso y refuerces tus habilidades en desarrollo analítico!** 📊
 

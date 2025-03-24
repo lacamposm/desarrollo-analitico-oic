@@ -1,6 +1,6 @@
 # ***🛠️ Clase 4: Implementación de un Proyecto Analítico Completo***
 
-En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un "modelo" de estimacion de precios de predios con una `API REST `utilizando `FastAPI`, almacenamiento en `PostgreSQL` y orquestación con `Docker`. Además, se incluirá una interfaz de usuario desarrollada en `Streamlit`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna y sentar las bases para una estructura modular que permita futuras extensiones.
+En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un "modelo" de estimacion de precios de predios con una `API REST` utilizando `FastAPI`, almacenamiento en `PostgreSQL` y orquestación con `Docker`. Además, se incluirá una interfaz de usuario desarrollada en `Streamlit`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna y sentar las bases para una estructura modular que permita futuras extensiones.
 
 ## Objetivos de la Sesión
 
@@ -12,23 +12,21 @@ En esta clase desarrollaremos un proyecto analítico a menor escala, integrando 
 
 ## Componentes del Proyecto
 
-### 1. Modelo Analítico - Regresión Lineal
+### 1. "Modelo" Analítico.
 
-- Implementación simplificada utilizando scikit-learn.
-- Entrenamiento con un subconjunto del dataset "House Prices" de Kaggle.
-- Serialización del modelo para su uso en producción.
-- **Nota:** Actualmente implementado como un modelo de "juguete" que devuelve números aleatorios.
+- Actualmente implementado como un modelo de "juguete" que devuelve números aleatorios.
 
 ### 2. API con FastAPI
 
 - Diseño de endpoints para predicciones y usuarios.
-- Validación de datos con Pydantic y documentación automática con Swagger UI.
 - Manejo modular de la lógica a través de servicios y routers.
+- Validación de datos con `Pydantic` y documentación automática con Swagger UI.
+
 
 ### 3. Base de Datos PostgreSQL
 
 - Esquema básico para almacenar datos crudos y registros de predicción.
-- Conexión mediante `SQLAlchemy` para gestionar la persistencia.
+- Conexión mediante `sqlmodel` y `psycopg2`  para gestionar la persistencia.
 
 ### 4. Orquestación con Docker
 
@@ -41,41 +39,54 @@ En esta clase desarrollaremos un proyecto analítico a menor escala, integrando 
 - App interactiva para crear usuarios y realizar predicciones.
 - Comunicación con la API para demostrar la integración end-to-end.
 
-## Preparación del entorno y pruebas (60 min)
+---
+
+### Preparación del entorno y pruebas (35 min)
 
 - Clonar el repositorio base.
-- Verificar el funcionamiento inicial del sistema, incluyendo la prueba de la imagen Docker y la activación del servicio.
-- Levantar los contenedores con docker-compose.
+- Verificar el funcionamiento inicial del sistema, incluyendo la construccion y prueba de la imagen Docker.
+- Explorar la estructura de carpetas y archivos para familiarizarnos con la organización del proyecto.
 
+### Interacción con la API (60 min)
 
-### Interacción con la API (30 min)
-
-- Revisión de los endpoints implementados en FastAPI.
+- Revision del codigo y su funcionamiento e implementacion, centrandonos en `FastAPI` y `sqlmodel`, comprendiendo cada componente implementado.
+- Revisión de los endpoints implementados en `FastAPI`.
+- Levantar los contenedores con `docker-compose`.
+- Comprobación de la correcta inicialización de `PostgreSQL`, `API` y `Streamlit`
 - Pruebas mediante Swagger UI y herramientas como `curl`.
-- Implementación de nuevos endpoints (por ejemplo, estadísticas).
 
-### Persistencia con PostgreSQL (25 min)
+
+### Persistencia con PostgreSQL (20 min)
 
 - Exploración del esquema de la base de datos.
-- Consultas y gestión de registros usando `SQLAlchemy`.
-- Análisis del flujo de datos desde la API hasta `PostgreSQL`.
-
-*El resto de la sesión se dedicará a revisar y profundizar en el código, comprendiendo cada componente implementado.*
+- Consultas y gestión de registros usando `pandas` y `SQLAlchemy`.
 
 ## Reflexión Final
 
-Esta clase no solo muestra la implementación técnica de un proyecto analítico completo, sino que también sienta las bases para una estructura modular y escalable. La integración de estas piezas (modelo analítico, API, base de datos, Docker y Streamlit) permite desarrollar soluciones robustas que transforman datos en decisiones informadas.
-
-> “El objetivo de un modelo no es ser perfecto, sino ser útil.”
+Esta clase no solo muestra la implementación técnica de un proyecto analítico completo, sino que también sienta las bases para una estructura modular y escalable. La integración de estas piezas (`"modelo" analítico`, `API`, `database`, `Docker` y `UI`) permite desarrollar soluciones robustas que transforman datos en decisiones informadas.
 
 ---
 
-## Recursos y referencias
-- [Código completo del proyecto en GitHub](https://github.com/lacamposm/mini-proyecto-oic)
-- [Documentación oficial de FastAPI](https://fastapi.tiangolo.com/)
-- [Tutorial de SQLAlchemy con PostgreSQL](https://docs.sqlalchemy.org/en/20/orm/tutorial.html)
-- [Guía de despliegue con Docker Compose](https://docs.docker.com/compose/gettingstarted/)
+### Recursos y Referencias
+
+- **FastAPI:** [Documentación de FastAPI](https://fastapi.tiangolo.com/)
+
+- **PostgreSQL:** [Documentación de PostgreSQL](https://www.postgresql.org/docs/)
+
+- **psycopg2:** [Documentación de psycopg2](https://www.psycopg.org/docs/)
+
+- **Docker:** [Sitio oficial de Docker](https://www.docker.com/)
+
+- **Docker Compose:** [Guía de Docker Compose](https://docs.docker.com/compose/gettingstarted/)
+
+- **Streamlit:**  [Documentación de Streamlit](https://docs.streamlit.io/)
+
+- **SQLAlchemy:** [Tutorial de SQLAlchemy con PostgreSQL](https://docs.sqlalchemy.org/en/20/orm/tutorial.html)
+
+- **SQLModel:** [Documentación de SQLModel](https://sqlmodel.tiangolo.com/)
+
+- **Código completo en GitHub:**  [GitHub - mini-proyecto-oic](https://github.com/lacamposm/mini-proyecto-oic)
 
 ## Para llevar más allá
 
-- Implementar otros endpoints.
+- Piensa en implementar otros endpoints.
