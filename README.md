@@ -65,19 +65,22 @@ Esta sesión abordará los principios fundamentales de la programación orientad
 
 En esta clase desarrollaremos un proyecto analítico a menor escala, integrando un modelo de estimación de precios de predios con una API REST utilizando `FastAPI`, almacenamiento en `PostgreSQL` y orquestación con `Docker`. El objetivo es demostrar el flujo de trabajo end-to-end de una aplicación de datos moderna.
 
-- Implementación de un modelo básico de estimación de precios de predios.
+- Implementación dummy de estimación de precios de predios.
 - Creación de una API REST con `FastAPI` para exponer el modelo como servicio.
-- Configuración de PostgreSQL para almacenamiento persistente de datos y predicciones.
+- Configuración de `PostgreSQL` para almacenamiento persistente de datos y predicciones.
 - Despliegue de la solución completa con `Docker` y `docker-compose`.
-- Desarrollo de una interfaz interactiva con `Streamlit` para consultar predicciones.
 
 ---
 
 ## 📌 **Clase 5 – Martes, 25 de marzo de 2025**
 **Modelo Analítico con Regresión**
 
-En esta clase profundizaremos en la construccion de nuestro servicio completo con `FastAPI`, implementando un modelo de regresion lineal multiple con `sklearn` sobre la informacion en la tabla [`raw_data`]()de nuestra base de datos `Postgres`.  Ademas, veremos una introduccion a la libreria `GeoPandas` como facilitador para la manipulacion basica de informacion geografica. Finalmente exportaremos nuestro modelo a un formato facilmente consumible como el un `.pkl`.
+En esta clase profundizaremos en la construccion de nuestro servicio completo con `FastAPI`
 
+- Implementando un modelo de regresion lineal multiple con `sklearn` sobre la informacion en la tabla [`raw_data`](https://raw.githubusercontent.com/lacamposm/Metodos-Estadisticos/refs/heads/main/data/kc_house_data.csv) de nuestra base de datos `PostgreSQL`.
+- Introduccion a la libreria `GeoPandas` como facilitador para la manipulacion basica de informacion geografica.
+- Exportaremos nuestro modelo a un formato facilmente consumible como el un `.pkl`.
+- Implementacion de endpoint de prediccion con nuestro verdadero modelo.
 
 ---
 
