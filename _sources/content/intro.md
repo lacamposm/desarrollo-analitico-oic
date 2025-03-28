@@ -47,12 +47,17 @@ Cada sesión se transmitirá por **Microsoft Teams**, y los materiales estarán 
 
 ---
 
-### 📂 **Accede al Material del Curso**  
-Todos los notebooks, ejemplos y código estarán organizados en este Jupyter Book:  
-🔗 **[Curso de Inducción OIC](https://lacamposm.github.io/desarrollo-analitico-oic/)**  
+### 📂 **Accede al Material del Curso** 
 
-También puedes explorar el repositorio en GitHub:  
+- Puedes explorar el repositorio del curso en GitHub:  
 🔗 **[Repositorio en GitHub](https://github.com/lacamposm/desarrollo-analitico-oic)**  
+
+- Todas las tematicas ejemplos y código estarán organizados en este Jupyter Book:  
+🔗 **[Curso de Inducción OIC](https://lacamposm.github.io/desarrollo-analitico-oic/)** 
+
+- El repositorio del proyecto analitico lo puedes encontrar aca:
+🔗 **[mini-proyecto-oic](https://github.com/lacamposm/mini-proyecto-oic)**
+
 
 ---
 
