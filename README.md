@@ -87,11 +87,10 @@ En esta clase profundizaremos en la construccion de nuestro servicio completo co
 ## 📌 **Clase 6 – Viernes, 28 de marzo de 2025**
 **Despliegue de Servicios Analíticos con Docker-compose y Streamlit**
 
-En esta sesión final aprenderemos cómo desplegar de manera eficiente nuestros servicios analíticos en ambientes controlados usando `docker-compose`. También desarrollaremos un frontend interactivo usando `Streamlit` para consumir nuestras APIs, completando así el flujo completo desde la creación del modelo hasta su puesta en producción de forma integral.
+En esta sesión final aprenderemos cómo poner en marcha nuestros servicios analíticos en ambientes controlados usando `docker-compose`. Para el frontend interactivo usaremos a `Streamlit` para consumir nuestras APIs, completando así el flujo completo desde la creación del modelo hasta hasta la materializacion de un servicio consumible.
 
 - Despliegue del servicio analítico usando `docker-compose`.
-- Creación de una aplicación web sencilla con `Streamlit`.
-- Consumo del servicio analítico desde la aplicación web.
+- Consumo del servicio analítico desde la aplicación web de `Streamlit`.
 
 ---
 
